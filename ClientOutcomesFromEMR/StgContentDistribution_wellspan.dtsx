@@ -1,0 +1,2128 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/5/2019 2:16:37 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AZW-PXX-JP12"
+  DTS:CreatorName="Prod\p-kchin"
+  DTS:DTSID="{03717AD2-C01C-4AA5-B2A4-FABC201C536E}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.170"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="StgContentDistribution_wellspan"
+  DTS:PackageType="5"
+  DTS:VersionBuild="108"
+  DTS:VersionGUID="{797C9B25-A11C-4721-A549-533B9FEEFC06}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Delete file"
+      DTS:CreationName="ExtensibleFileTask"
+      DTS:Description="Flexible File Task"
+      DTS:DTSID="{DB99E2BD-CC17-42A2-847F-18779B73AA1C}"
+      DTS:ExecutableType="ExtensibleFileTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Delete file"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FolderPath">"epicpi/Staging/"+ @[$Project::UrlAlias]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <ExtensibleFileTask
+          Operation="Delete"
+          SourceConnectionType="LocalFileSystem"
+          SearchRecursively="False"
+          DestinationConnectionType="LocalFileSystem"
+          ConnectionType="AzureStorage"
+          ConnectionId="{F3DAE546-8007-4FC3-9958-55BBF610B54D}"
+          FolderPath="epicpi/Staging/well434"
+          FileName="*Education*"
+          DeleteRecursively="False" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Delete file 1"
+      DTS:CreationName="ExtensibleFileTask"
+      DTS:Description="Flexible File Task"
+      DTS:DTSID="{BDA8734D-EBE0-424C-B588-2E54D96BFF3F}"
+      DTS:ExecutableType="ExtensibleFileTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Delete file 1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FolderPath">"epicpi/Staging/"+ @[$Project::UrlAlias]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <ExtensibleFileTask
+          Operation="Delete"
+          SourceConnectionType="LocalFileSystem"
+          SearchRecursively="False"
+          DestinationConnectionType="LocalFileSystem"
+          ConnectionType="AzureStorage"
+          ConnectionId="{F3DAE546-8007-4FC3-9958-55BBF610B54D}"
+          FolderPath="epicpi/Staging/well434"
+          FileName="*ContentDistributed*"
+          DeleteRecursively="False" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\dft Stage ContentDistribution"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{693205F8-F05F-4DCE-8765-5AD154B42B66}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="dft Stage ContentDistribution"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="[Azure Blob Source].[Blob Name]">"Staging/"+ @[$Project::UrlAlias]+"/Education"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\dft Stage ContentDistribution\Azure Blob Source"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="© Microsoft Corporation; All Rights Reserved;"
+              description="Extracts data from a blob in Azure Storage. The supported file formats are: Text and Avro. To work with Azure Data Lake Storage Gen2, use Flexible File Source with Azure Storage Connection Manager instead."
+              name="Azure Blob Source"
+              usesDispositions="true"
+              validateExternalMetadata="False">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of blob container"
+                  expressionType="Notify"
+                  name="Blob Container">epicpi</property>
+                <property
+                  dataType="System.String"
+                  description="The full name of blob"
+                  expressionType="Notify"
+                  name="Blob Name">Staging/well434/Education</property>
+                <property
+                  dataType="System.Int32"
+                  description="The format of blob file"
+                  name="Blob Format"
+                  typeConverter="Microsoft.SqlServer.IntegrationService.CloudComponents.Utilities.AzBlobFormatEnumStringConverter">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Compress File"
+                  name="Compress File">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="The compression type"
+                  name="Compression Type"
+                  typeConverter="Microsoft.SqlServer.IntegrationService.CloudComponents.Utilities.AzCompressionTypeEnumStringConverter">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The compression level"
+                  name="Compression Level"
+                  typeConverter="Microsoft.SqlServer.IntegrationService.CloudComponents.Utilities.AzCompressionLevelEnumStringConverter">0</property>
+                <property
+                  dataType="System.String"
+                  description="The character used to delimit columns in text file"
+                  name="Column Delimiter">|</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Column names in the first data row"
+                  name="First Row as Column Names">true</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">AzBlobSrc</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\dft Stage ContentDistribution\Azure Blob Source.Connections[Azure Storage]"
+                  connectionManagerID="{F3DAE546-8007-4FC3-9958-55BBF610B54D}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Azure Storage]"
+                  description="Connection Manager for Azure Storage"
+                  name="Azure Storage" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output]"
+                  name="Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[Patient_Key]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[Patient_Key]"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[Patient_Key]"
+                      name="Patient_Key"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[Encounter_Key]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[Encounter_Key]"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[Encounter_Key]"
+                      name="Encounter_Key"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[LANG_CARE_C]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[LANG_CARE_C]"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[LANG_CARE_C]"
+                      name="LANG_CARE_C"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[LANG_WRIT_C]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[LANG_WRIT_C]"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[LANG_WRIT_C]"
+                      name="LANG_WRIT_C"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[ENCOUNTER_TYPE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[ENCOUNTER_TYPE_ID]"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[ENCOUNTER_TYPE_ID]"
+                      name="ENCOUNTER_TYPE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[ENCOUNTER_TYPE_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[ENCOUNTER_TYPE_NAME]"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[ENCOUNTER_TYPE_NAME]"
+                      name="ENCOUNTER_TYPE_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[REF_DOC_SUGGES_DTTM]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[REF_DOC_SUGGES_DTTM]"
+                      name="REF_DOC_SUGGES_DTTM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[REF_DOC_PRINT_DTTM]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[REF_DOC_PRINT_DTTM]"
+                      name="REF_DOC_PRINT_DTTM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[REF_DOCS_ETX_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[REF_DOCS_ETX_ID]"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[REF_DOCS_ETX_ID]"
+                      name="REF_DOCS_ETX_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[REF_DOCS_ETX_DAT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[REF_DOCS_ETX_DAT]"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[REF_DOCS_ETX_DAT]"
+                      name="REF_DOCS_ETX_DAT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[AVS_PRINT_TM]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[AVS_PRINT_TM]"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[AVS_PRINT_TM]"
+                      name="AVS_PRINT_TM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[SMARTTEXT_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[SMARTTEXT_NAME]"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[SMARTTEXT_NAME]"
+                      name="SMARTTEXT_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[THIRD_PARTY_SOURCE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[THIRD_PARTY_SOURCE]"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[THIRD_PARTY_SOURCE]"
+                      name="THIRD_PARTY_SOURCE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[MONTH_BUCKET]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[MONTH_BUCKET]"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[MONTH_BUCKET]"
+                      name="MONTH_BUCKET"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[Patient_Key]"
+                      dataType="wstr"
+                      length="255"
+                      name="Patient_Key" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[Encounter_Key]"
+                      dataType="wstr"
+                      length="255"
+                      name="Encounter_Key" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[LANG_CARE_C]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANG_CARE_C" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[LANG_WRIT_C]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANG_WRIT_C" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[ENCOUNTER_TYPE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ENCOUNTER_TYPE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[ENCOUNTER_TYPE_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="ENCOUNTER_TYPE_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      dataType="wstr"
+                      length="255"
+                      name="REF_DOC_SUGGES_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      dataType="wstr"
+                      length="255"
+                      name="REF_DOC_PRINT_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[REF_DOCS_ETX_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="REF_DOCS_ETX_ID" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[REF_DOCS_ETX_DAT]"
+                      dataType="wstr"
+                      length="255"
+                      name="REF_DOCS_ETX_DAT" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[AVS_PRINT_TM]"
+                      dataType="wstr"
+                      length="255"
+                      name="AVS_PRINT_TM" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[SMARTTEXT_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="SMARTTEXT_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[THIRD_PARTY_SOURCE]"
+                      dataType="wstr"
+                      length="255"
+                      name="THIRD_PARTY_SOURCE" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].ExternalColumns[MONTH_BUCKET]"
+                      dataType="wstr"
+                      length="255"
+                      name="MONTH_BUCKET" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output]"
+                  isErrorOut="true"
+                  name="Error output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[Patient_Key]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[Patient_Key]"
+                      name="Patient_Key" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[Encounter_Key]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[Encounter_Key]"
+                      name="Encounter_Key" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[LANG_CARE_C]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[LANG_CARE_C]"
+                      name="LANG_CARE_C" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[LANG_WRIT_C]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[LANG_WRIT_C]"
+                      name="LANG_WRIT_C" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[ENCOUNTER_TYPE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[ENCOUNTER_TYPE_ID]"
+                      name="ENCOUNTER_TYPE_ID" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[ENCOUNTER_TYPE_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[ENCOUNTER_TYPE_NAME]"
+                      name="ENCOUNTER_TYPE_NAME" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[REF_DOC_SUGGES_DTTM]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[REF_DOC_SUGGES_DTTM]"
+                      name="REF_DOC_SUGGES_DTTM" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[REF_DOC_PRINT_DTTM]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[REF_DOC_PRINT_DTTM]"
+                      name="REF_DOC_PRINT_DTTM" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[REF_DOCS_ETX_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[REF_DOCS_ETX_ID]"
+                      name="REF_DOCS_ETX_ID" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[REF_DOCS_ETX_DAT]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[REF_DOCS_ETX_DAT]"
+                      name="REF_DOCS_ETX_DAT" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[AVS_PRINT_TM]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[AVS_PRINT_TM]"
+                      name="AVS_PRINT_TM" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[SMARTTEXT_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[SMARTTEXT_NAME]"
+                      name="SMARTTEXT_NAME" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[THIRD_PARTY_SOURCE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[THIRD_PARTY_SOURCE]"
+                      name="THIRD_PARTY_SOURCE" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[MONTH_BUCKET]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[MONTH_BUCKET]"
+                      name="MONTH_BUCKET" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\dft Stage ContentDistribution\ContentDistribution errors"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ContentDistribution errors"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[error].[ContentDistribution]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Connections[OleDbConnection]"
+                  connectionManagerID="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ClientOutcomesFromEMR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[ErrorCode]"
+                      cachedDataType="i4"
+                      cachedName="ErrorCode"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[ErrorCode]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[ErrorColumn]"
+                      cachedDataType="i4"
+                      cachedName="ErrorColumn"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[ErrorColumn]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[CreatedDate]"
+                      cachedDataType="date"
+                      cachedName="CreatedDate"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      lineageId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output].Columns[CreatedDate]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[UrlAlias]"
+                      cachedDataType="wstr"
+                      cachedLength="7"
+                      cachedName="UrlAlias"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[UrlAlias]"
+                      lineageId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output].Columns[UrlAlias]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[Encounter_Key]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Encounter_Key"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_KEY]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[Encounter_Key]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[Patient_Key]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Patient_Key"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[PATIENT_KEY]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[Patient_Key]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[LANG_CARE_C]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LANG_CARE_C"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[LANG_CARE_C]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[LANG_CARE_C]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[LANG_WRIT_C]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LANG_WRIT_C"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[LANG_WRIT_C]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[LANG_WRIT_C]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[ENCOUNTER_TYPE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ENCOUNTER_TYPE_ID"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_TYPE_ID]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[ENCOUNTER_TYPE_ID]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[ENCOUNTER_TYPE_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ENCOUNTER_TYPE_NAME"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_TYPE_NAME]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[ENCOUNTER_TYPE_NAME]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[REF_DOC_SUGGES_DTTM]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="REF_DOC_SUGGES_DTTM"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[REF_DOC_SUGGES_DTTM]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[REF_DOC_PRINT_DTTM]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="REF_DOC_PRINT_DTTM"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[REF_DOC_PRINT_DTTM]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[REF_DOCS_ETX_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="REF_DOCS_ETX_ID"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOCS_ETX_ID]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[REF_DOCS_ETX_ID]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[REF_DOCS_ETX_DAT]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="REF_DOCS_ETX_DAT"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOCS_ETX_DAT]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[REF_DOCS_ETX_DAT]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[AVS_PRINT_TM]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="AVS_PRINT_TM"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[AVS_PRINT_TM]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[AVS_PRINT_TM]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[SMARTTEXT_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SMARTTEXT_NAME"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[SMARTTEXT_NAME]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[SMARTTEXT_NAME]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[THIRD_PARTY_SOURCE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="THIRD_PARTY_SOURCE"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[THIRD_PARTY_SOURCE]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[THIRD_PARTY_SOURCE]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].Columns[MONTH_BUCKET]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="MONTH_BUCKET"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[MONTH_BUCKET]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output].Columns[MONTH_BUCKET]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                      dataType="i4"
+                      name="ErrorCode" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                      dataType="i4"
+                      name="ErrorColumn" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      name="CreatedDate" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[UrlAlias]"
+                      dataType="wstr"
+                      length="7"
+                      name="UrlAlias" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_KEY]"
+                      dataType="wstr"
+                      length="255"
+                      name="ENCOUNTER_KEY" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[PATIENT_KEY]"
+                      dataType="wstr"
+                      length="255"
+                      name="PATIENT_KEY" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[LANG_CARE_C]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANG_CARE_C" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[LANG_WRIT_C]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANG_WRIT_C" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_TYPE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ENCOUNTER_TYPE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_TYPE_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="ENCOUNTER_TYPE_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      dataType="wstr"
+                      length="255"
+                      name="REF_DOC_SUGGES_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      dataType="wstr"
+                      length="255"
+                      name="REF_DOC_PRINT_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOCS_ETX_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="REF_DOCS_ETX_ID" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOCS_ETX_DAT]"
+                      dataType="wstr"
+                      length="255"
+                      name="REF_DOCS_ETX_DAT" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[AVS_PRINT_TM]"
+                      dataType="wstr"
+                      length="255"
+                      name="AVS_PRINT_TM" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[SMARTTEXT_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="SMARTTEXT_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[THIRD_PARTY_SOURCE]"
+                      dataType="wstr"
+                      length="255"
+                      name="THIRD_PARTY_SOURCE" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input].ExternalColumns[MONTH_BUCKET]"
+                      dataType="wstr"
+                      length="255"
+                      name="MONTH_BUCKET" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage ContentDistribution\ContentDistribution errors.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\ContentDistribution errors.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage ContentDistribution\ContentDistribution errors.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\dft Stage ContentDistribution\Convert to non-unicode"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Convert to non-unicode"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Inputs[Data Conversion Input].Columns[UrlAlias]"
+                      cachedDataType="wstr"
+                      cachedLength="7"
+                      cachedName="UrlAlias"
+                      lineageId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Outputs[Derived Column Output].Columns[UrlAlias]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Inputs[Data Conversion Input].Columns[Encounter_Key]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Encounter_Key"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[Encounter_Key]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Inputs[Data Conversion Input].Columns[Patient_Key]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Patient_Key"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[Patient_Key]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Inputs[Data Conversion Input].Columns[REF_DOCS_ETX_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="REF_DOCS_ETX_ID"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[REF_DOCS_ETX_ID]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Inputs[Data Conversion Input].Columns[REF_DOCS_ETX_DAT]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="REF_DOCS_ETX_DAT"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[REF_DOCS_ETX_DAT]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Inputs[Data Conversion Input].Columns[THIRD_PARTY_SOURCE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="THIRD_PARTY_SOURCE"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[THIRD_PARTY_SOURCE]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Inputs[Data Conversion Input].Columns[ENCOUNTER_TYPE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ENCOUNTER_TYPE_ID"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[ENCOUNTER_TYPE_ID]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Inputs[Data Conversion Input].Columns[ENCOUNTER_TYPE_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ENCOUNTER_TYPE_NAME"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[ENCOUNTER_TYPE_NAME]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Inputs[Data Conversion Input].Columns[LANG_CARE_C]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LANG_CARE_C"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[LANG_CARE_C]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Inputs[Data Conversion Input].Columns[LANG_WRIT_C]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LANG_WRIT_C"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[LANG_WRIT_C]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\dft Stage ContentDistribution\Convert to non-unicode.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[UrlAlias_converted]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[UrlAlias_converted]"
+                      name="UrlAlias_converted"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Outputs[Derived Column Output].Columns[UrlAlias]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[ENCOUNTER_KEY_converted]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[ENCOUNTER_KEY_converted]"
+                      name="ENCOUNTER_KEY_converted"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[Encounter_Key]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[PATIENT_KEY_converted]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[PATIENT_KEY_converted]"
+                      name="PATIENT_KEY_converted"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[Patient_Key]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[REF_DOCS_ETX_ID_converted]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[REF_DOCS_ETX_ID_converted]"
+                      name="REF_DOCS_ETX_ID_converted"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[REF_DOCS_ETX_ID]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[REF_DOCS_ETX_DAT_converted]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[REF_DOCS_ETX_DAT_converted]"
+                      name="REF_DOCS_ETX_DAT_converted"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[REF_DOCS_ETX_DAT]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[THIRD_PARTY_SOURCE_converted]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[THIRD_PARTY_SOURCE_converted]"
+                      name="THIRD_PARTY_SOURCE_converted"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[THIRD_PARTY_SOURCE]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[ENCOUNTER_TYPE_ID_converted]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[ENCOUNTER_TYPE_ID_converted]"
+                      name="ENCOUNTER_TYPE_ID_converted"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[ENCOUNTER_TYPE_ID]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[ENCOUNTER_TYPE_NAME_converted]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[ENCOUNTER_TYPE_NAME_converted]"
+                      name="ENCOUNTER_TYPE_NAME_converted"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[ENCOUNTER_TYPE_NAME]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[LANG_CARE_C_converted]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[LANG_CARE_C_converted]"
+                      name="LANG_CARE_C_converted"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[LANG_CARE_C]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[LANG_WRIT_C_converted]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[LANG_WRIT_C_converted]"
+                      name="LANG_WRIT_C_converted"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[LANG_WRIT_C]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\dft Stage ContentDistribution\Convert to non-unicode.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="der UrlAlias and CreatedDate"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Outputs[Derived Column Output].Columns[CreatedDate]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Outputs[Derived Column Output].Columns[CreatedDate]"
+                      name="CreatedDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[System::StartTime]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[System::StartTime]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Outputs[Derived Column Output].Columns[UrlAlias]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="7"
+                      lineageId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Outputs[Derived Column Output].Columns[UrlAlias]"
+                      name="UrlAlias"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Project::UrlAlias]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Project::UrlAlias]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="der UrlAlias and CreatedDate 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output].Columns[CreatedDate]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output].Columns[CreatedDate]"
+                      name="CreatedDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[System::StartTime]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[System::StartTime]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output].Columns[UrlAlias]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="7"
+                      lineageId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output].Columns[UrlAlias]"
+                      name="UrlAlias"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Project::UrlAlias]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Project::UrlAlias]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\dft Stage ContentDistribution\stg ContentDistribution"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="stg ContentDistribution"
+              usesDispositions="true"
+              validateExternalMetadata="False"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Stg].[ContentDistribution]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Connections[OleDbConnection]"
+                  connectionManagerID="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ClientOutcomesFromEMR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="IgnoreFailure"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[REF_DOC_SUGGES_DTTM]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="REF_DOC_SUGGES_DTTM"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[REF_DOC_SUGGES_DTTM]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[REF_DOC_PRINT_DTTM]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="REF_DOC_PRINT_DTTM"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[REF_DOC_PRINT_DTTM]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[AVS_PRINT_TM]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="AVS_PRINT_TM"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[AVS_PRINT_TM]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[AVS_PRINT_TM]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[MONTH_BUCKET]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="MONTH_BUCKET"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[MONTH_BUCKET]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[MONTH_BUCKET]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[CreatedDate]"
+                      cachedDataType="date"
+                      cachedName="CreatedDate"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      lineageId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Outputs[Derived Column Output].Columns[CreatedDate]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[UrlAlias_converted]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="UrlAlias_converted"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[UrlAlias]"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[UrlAlias_converted]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[REF_DOCS_ETX_ID_converted]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="REF_DOCS_ETX_ID_converted"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOCS_ETX_ID]"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[REF_DOCS_ETX_ID_converted]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[REF_DOCS_ETX_DAT_converted]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="REF_DOCS_ETX_DAT_converted"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOCS_ETX_DAT]"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[REF_DOCS_ETX_DAT_converted]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[THIRD_PARTY_SOURCE_converted]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="THIRD_PARTY_SOURCE_converted"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[THIRD_PARTY_SOURCE]"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[THIRD_PARTY_SOURCE_converted]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[ENCOUNTER_TYPE_ID_converted]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="ENCOUNTER_TYPE_ID_converted"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_TYPE_ID]"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[ENCOUNTER_TYPE_ID_converted]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[ENCOUNTER_TYPE_NAME_converted]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="ENCOUNTER_TYPE_NAME_converted"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_TYPE_NAME]"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[ENCOUNTER_TYPE_NAME_converted]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[LANG_CARE_C_converted]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="LANG_CARE_C_converted"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[LANG_CARE_C]"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[LANG_CARE_C_converted]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[LANG_WRIT_C_converted]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="LANG_WRIT_C_converted"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[LANG_WRIT_C]"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[LANG_WRIT_C_converted]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[SMARTTEXT_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SMARTTEXT_NAME"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[SMARTTEXT_NAME]"
+                      lineageId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output].Columns[SMARTTEXT_NAME]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[ENCOUNTER_KEY_converted]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="ENCOUNTER_KEY_converted"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[PATIENT_KEY]"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[ENCOUNTER_KEY_converted]" />
+                    <inputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].Columns[PATIENT_KEY_converted]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="PATIENT_KEY_converted"
+                      externalMetadataColumnId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_KEY]"
+                      lineageId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output].Columns[PATIENT_KEY_converted]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_KEY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="ENCOUNTER_KEY" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[PATIENT_KEY]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="PATIENT_KEY" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      dataType="dbTimeStamp"
+                      name="REF_DOC_SUGGES_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      dataType="dbTimeStamp"
+                      name="REF_DOC_PRINT_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOCS_ETX_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="REF_DOCS_ETX_ID" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOCS_ETX_DAT]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="REF_DOCS_ETX_DAT" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[AVS_PRINT_TM]"
+                      dataType="dbTimeStamp"
+                      name="AVS_PRINT_TM" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[SMARTTEXT_NAME]"
+                      dataType="wstr"
+                      length="200"
+                      name="SMARTTEXT_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[THIRD_PARTY_SOURCE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="THIRD_PARTY_SOURCE" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[MONTH_BUCKET]"
+                      dataType="dbTimeStamp"
+                      name="MONTH_BUCKET" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      name="CreatedDate" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[UrlAlias]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="UrlAlias" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_TYPE_ID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="ENCOUNTER_TYPE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_TYPE_NAME]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="ENCOUNTER_TYPE_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[LANG_CARE_C]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="LANG_CARE_C" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input].ExternalColumns[LANG_WRIT_C]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="LANG_WRIT_C" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage ContentDistribution\stg ContentDistribution.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\dft Stage ContentDistribution\stg ContentDistribution.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage ContentDistribution\stg ContentDistribution.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\dft Stage ContentDistribution.Paths[Data Conversion Output]"
+              endId="Package\dft Stage ContentDistribution\stg ContentDistribution.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\dft Stage ContentDistribution\Convert to non-unicode.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\dft Stage ContentDistribution.Paths[Derived Column Output]"
+              endId="Package\dft Stage ContentDistribution\Convert to non-unicode.Inputs[Data Conversion Input]"
+              name="Derived Column Output"
+              startId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\dft Stage ContentDistribution.Paths[Derived Column Output1]"
+              endId="Package\dft Stage ContentDistribution\ContentDistribution errors.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\dft Stage ContentDistribution.Paths[Error output]"
+              endId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1.Inputs[Derived Column Input]"
+              name="Error output"
+              startId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Error output]" />
+            <path
+              refId="Package\dft Stage ContentDistribution.Paths[Output]"
+              endId="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate.Inputs[Derived Column Input]"
+              name="Output"
+              startId="Package\dft Stage ContentDistribution\Azure Blob Source.Outputs[Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Rename file"
+      DTS:CreationName="ExtensibleFileTask"
+      DTS:Description="Flexible File Task"
+      DTS:DTSID="{92DC602A-ABB2-4DD5-B638-0631CAB49FFB}"
+      DTS:ExecutableType="ExtensibleFileTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Rename file"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="DestinationFileName">"Education"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="DestinationFolderPath">"epicpi/Staging/"+ @[$Project::UrlAlias]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="SourceFolderPath">"epicpi/Staging/"+ @[$Project::UrlAlias]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <ExtensibleFileTask
+          Operation="Copy"
+          SourceConnectionType="AzureStorage"
+          SourceConnectionId="{F3DAE546-8007-4FC3-9958-55BBF610B54D}"
+          SourceFolderPath="epicpi/Staging/well434"
+          SourceFileName="*Education*"
+          SearchRecursively="False"
+          DestinationConnectionType="AzureStorage"
+          DestinationConnectionId="{F3DAE546-8007-4FC3-9958-55BBF610B54D}"
+          DestinationFolderPath="epicpi/Staging/well434"
+          DestinationFileName="Education"
+          ConnectionType="AzureStorage"
+          ConnectionId="{F3DAE546-8007-4FC3-9958-55BBF610B54D}"
+          FolderPath="epicpi/Staging/park134"
+          FileName="*Education*"
+          DeleteRecursively="False" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Rename file 1"
+      DTS:CreationName="ExtensibleFileTask"
+      DTS:Description="Flexible File Task"
+      DTS:DTSID="{C8420B19-8DD9-4A74-8671-7E6EC3C18DBE}"
+      DTS:ExecutableType="ExtensibleFileTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Rename file 1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="DestinationFileName">"Education"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="DestinationFolderPath">"epicpi/Staging/"+ @[$Project::UrlAlias]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="SourceFolderPath">"epicpi/Staging/"+ @[$Project::UrlAlias]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <ExtensibleFileTask
+          Operation="Copy"
+          SourceConnectionType="AzureStorage"
+          SourceConnectionId="{F3DAE546-8007-4FC3-9958-55BBF610B54D}"
+          SourceFolderPath="epicpi/Staging/well434"
+          SourceFileName="*ContentDistributed*"
+          SearchRecursively="False"
+          DestinationConnectionType="AzureStorage"
+          DestinationConnectionId="{F3DAE546-8007-4FC3-9958-55BBF610B54D}"
+          DestinationFolderPath="epicpi/Staging/well434"
+          DestinationFileName="Education"
+          ConnectionType="AzureStorage"
+          ConnectionId="{F3DAE546-8007-4FC3-9958-55BBF610B54D}"
+          FolderPath="epicpi/Staging/park134"
+          FileName="*Education*"
+          DeleteRecursively="False" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Stg ContentDistribution"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{5FB51C21-789A-4077-A519-3013D4426B0D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Stg ContentDistribution"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE [Stg].[ContentDistribution]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{79ADF3EB-A45B-4F67-8046-6A9A5C55F47C}"
+      DTS:From="Package\Truncate Stg ContentDistribution"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\dft Stage ContentDistribution" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{3E15AF4C-B51B-477A-8439-C56D3D8A3639}"
+      DTS:From="Package\Rename file"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Truncate Stg ContentDistribution" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{A7644646-4728-4685-B571-A88D4F370F63}"
+      DTS:From="Package\dft Stage ContentDistribution"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Delete file" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{51717B16-67CA-4DC7-AD9C-035313486BD4}"
+      DTS:From="Package\Rename file 1"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Rename file" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{50D8116A-16BC-488F-9BC6-D0DAA25E84AA}"
+      DTS:From="Package\Delete file"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Delete file 1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="126,42"
+          Id="Package\Delete file"
+          TopLeft="59.0000000000001,413.5" />
+        <NodeLayout
+          Size="126,42"
+          Id="Package\Delete file 1"
+          TopLeft="59.0000000000001,515.5" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\dft Stage ContentDistribution"
+          TopLeft="14,311.5" />
+        <NodeLayout
+          Size="135,42"
+          Id="Package\Rename file"
+          TopLeft="54.5,107.5" />
+        <NodeLayout
+          Size="135,42"
+          Id="Package\Rename file 1"
+          TopLeft="54.5,5.5" />
+        <NodeLayout
+          Size="233,42"
+          Id="Package\Truncate Stg ContentDistribution"
+          TopLeft="5.50000000000003,209.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="122,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="122,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="122,353.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="122,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="122,455.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\dft Stage ContentDistribution">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="187,42"
+          Id="Package\dft Stage ContentDistribution\stg ContentDistribution"
+          TopLeft="19.5000000000001,311.5" />
+        <NodeLayout
+          Size="190,42"
+          Id="Package\dft Stage ContentDistribution\Convert to non-unicode"
+          TopLeft="18.0000000000001,209.5" />
+        <NodeLayout
+          Size="201,42"
+          Id="Package\dft Stage ContentDistribution\ContentDistribution errors"
+          TopLeft="292.5,209.5" />
+        <NodeLayout
+          Size="215,42"
+          Id="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate"
+          TopLeft="5.5,107.5" />
+        <NodeLayout
+          Size="165,42"
+          Id="Package\dft Stage ContentDistribution\Azure Blob Source"
+          TopLeft="54,11" />
+        <NodeLayout
+          Size="224,42"
+          Id="Package\dft Stage ContentDistribution\der UrlAlias and CreatedDate 1"
+          TopLeft="281,107.5" />
+        <EdgeLayout
+          Id="Package\dft Stage ContentDistribution.Paths[Output]"
+          TopLeft="136.5,53">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-23.5,54.5"
+              Start="0,0"
+              End="-23.5,47">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.25"
+                    Point2="0,27.25"
+                    Point3="-4,27.25" />
+                  <mssgle:LineSegment
+                    End="-19.5,27.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-19.5,27.25"
+                    Point2="-23.5,27.25"
+                    Point3="-23.5,31.25" />
+                  <mssgle:LineSegment
+                    End="-23.5,47" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\dft Stage ContentDistribution.Paths[Error output]"
+          TopLeft="162.666666666667,53">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="230.333333333333,54.5"
+              Start="0,0"
+              End="230.333333333333,47">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.1140456182473" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.1140456182473"
+                    Point2="0,22.1140456182473"
+                    Point3="4,22.1140456182473" />
+                  <mssgle:LineSegment
+                    End="226.333333333333,22.1140456182473" />
+                  <mssgle:CubicBezierSegment
+                    Point1="226.333333333333,22.1140456182473"
+                    Point2="230.333333333333,22.1140456182473"
+                    Point3="230.333333333333,26.1140456182473" />
+                  <mssgle:LineSegment
+                    End="230.333333333333,47" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="87.6552799479165,27.1140456182473,55.0227734375,11.2822265625"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\dft Stage ContentDistribution.Paths[Derived Column Output1]"
+          TopLeft="393,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\dft Stage ContentDistribution.Paths[Derived Column Output]"
+          TopLeft="113,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\dft Stage ContentDistribution.Paths[Data Conversion Output]"
+          TopLeft="113,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\dft Stage ContentDistribution\stg ContentDistribution">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\dft Stage ContentDistribution\ContentDistribution errors">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\dft Stage ContentDistribution\Azure Blob Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

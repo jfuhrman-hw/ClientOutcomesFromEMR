@@ -1,0 +1,938 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/13/2019 3:26:02 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AZW-PXX-JP12"
+  DTS:CreatorName="Prod\p-kchin"
+  DTS:DTSID="{55003F58-D263-4CF2-B627-A8C4B40ADA92}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.170"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="FactEncounterEvent_ContentFlag"
+  DTS:PackageType="5"
+  DTS:VersionBuild="246"
+  DTS:VersionGUID="{45EE76CE-C8C6-40E7-B850-23500159B409}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[asazure://westus.asazure.windows.net/azwphaas01.POC]"
+      DTS:CreationName="MSOLAP100"
+      DTS:DTSID="{B63AF852-D937-4FA8-B575-68C1DCC9D580}"
+      DTS:ObjectName="asazure://westus.asazure.windows.net/azwphaas01.POC">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Data Source=asazure://westus.asazure.windows.net/azwphaas01;Initial Catalog=POC;Provider=MSOLAP.8;Impersonation Level=Impersonate;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\StgAsset_Codes - Get Codes for HWIDs"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{597EA20E-8F35-4EE8-99F5-4EA8420563BD}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="StgAsset_Codes - Get Codes for HWIDs"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="truncate table Stg.Asset_Codes;&#xA;&#xA;insert into Stg.Asset_Codes&#xA; SELECT distinct c.FactAssetId,&#xA;      fa.Hwid,&#xA;&#x9;  fa.Title,&#xA;&#x9;  /*,  dc.Relevancy */&#xA;&#x9;  CodeSet,&#xA;&#x9;  dc.ContentCodeNotation as DiagnosisCode,&#xA;&#x9;  dc.[ContentCodeKey]&#xA; &#xA;   from dbo.FactAsset_v2 fa&#xA;    inner join [Stg].[content_codes] /*[dbo].[Codes]*/ as c&#xA;&#x9;  on fa.FactAssetId = c.FactAssetId&#xA;&#x9;inner join dbo.DimContentCode dc&#xA;&#x9;   on c.Notation = dc.ContentCodeNotation&#xA;&#x9;&#xA;&#x9;order by fa.Hwid&#xA;&#x9;;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\StgAsset_Codes_BridgeTable - Create Bridge Table that associates Encounter to HWID"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{D2D6F3ED-B3BD-49E5-88A3-2B164895D1BB}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="StgAsset_Codes_BridgeTable - Create Bridge Table that associates Encounter to HWID"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="truncate table Stg.Asset_Codes_BridgeTable;&#xA;&#xA;insert into Stg.Asset_Codes_BridgeTable&#xA;select --top 1000&#xA;        distinct &#xA;       fact.DateKey,&#xA;       fact.EncounterKey,&#xA;&#x9;   fact.PatientKey,&#xA;&#x9;   null as EncounterTypeName,&#xA;&#x9;   fact.EncounterTypeKey,&#xA;&#x9;   fact.EventTypeKey,&#xA;&#x9;   dc.DiagnosisCode,&#xA;&#x9;   dc.DiagnosisCodeName,&#xA;&#x9;   fact.DiagnosisCodeKey,&#xA;&#x9;   null as ProcedureCode,&#xA;&#x9;   null as ProcedureCodeName,&#xA;&#x9;   fact.ProcedureCodeKey,&#xA;&#x9;   fact.ContentKey,&#xA;&#x9;   null as ContentTitle,&#xA;&#x9;   null as Hwid,&#xA;&#x9;   null as FactAssetID,&#xA;&#x9;   null as Title&#xA;&#xA; from dbo.FactEncounterEvent_v2 fact&#xA;    join dbo.DimDiagnosisCode dc&#xA;    on fact.DiagnosisCodeKey = dc.DiagnosisCodeKey&#xA;;&#xA;&#xA;update Stg.Asset_Codes_BridgeTable&#xA;   set Hwid = cds.Hwid&#xA;   from&#xA; Stg.Asset_Codes_BridgeTable otpt1&#xA;  Join Stg.Asset_Codes cds&#xA;&#x9;on otpt1.DiagnosisCode = cds.DiagnosisCode&#xA;&#x9;;&#xA;&#xA; update Stg.Asset_Codes_BridgeTable&#xA;   set FactAssetId = fa.FactAssetId,&#xA;       EncounterTypeKey = et.EncounterTypeId,&#xA;&#x9;   EncounterTypeName = et.EncounterTypeName,&#xA;       Title = fa.Title&#xA;  from Stg.Asset_Codes_BridgeTable tmp1&#xA; join dbo.FactAsset_v2 fa&#xA;    on tmp1.hwid = fa.Hwid   &#xA;    join dbo.DimEncounterType et&#xA;    on tmp1.EventTypeKey = et.EncounterTypeKey &#xA;&#x9;;&#xA;&#xA;update Stg.Asset_Codes_BridgeTable&#xA;    set ProcedureCodeName = pc.ProcedureCodeName,  --nvarchar 200&#xA;&#x9;    ProcedureCode = pc.ProcedureCode,          --nvarchar(50)&#xA;&#x9;&#x9;ContentTitle = con.ContentTitle            --int&#xA;&#x9;from Stg.Asset_Codes_BridgeTable otpt3&#xA;&#x9; join dbo.DimProcedureCode pc&#xA;    on otpt3.ProcedureCodeKey = pc.ProcedureCodeKey&#xA;   join dbo.DimContent con&#xA;    on otpt3.ContentKey = con.ContentKey&#xA;&#x9;;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\StgAsset_Codes_ContentFlagDemo - Insert Data into ContentFlag Demo - used to update in Fact table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{d6ff7201-540e-45bc-b81e-c2bf03629c00}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="StgAsset_Codes_ContentFlagDemo - Insert Data into ContentFlag Demo - used to update in Fact table"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="truncate table Stg.Asset_Codes_ContentFlagDemo;&#xA;&#xA;insert into Stg.Asset_Codes_ContentFlagDemo&#xA;&#x9;SELECT distinct fee.[DateKey]&#xA;      ,fee.[EncounterKey]&#xA;      ,fee.[PatientKey]&#xA;      ,fee.[ClientKey]&#xA;      ,fee.[EventTypeKey]&#xA;      ,fee.[EncounterTypeKey]&#xA;      ,fee.[ServiceAreaKey]&#xA;      ,fee.[LocationKey]&#xA;      ,fee.[DepartmentKey]&#xA;      ,fee.[FinancialClassKey]&#xA;      ,fee.[DiagnosisCodeKey]&#xA;      ,fee.[ProcedureCodeKey]&#xA;      ,fee.[ContentKey]&#xA;      ,fee.[REF_DOC_SUGGES_DTTM]&#xA;      ,fee.[REF_DOC_PRINT_DTTM]&#xA;      ,fee.[AVS_PRINT_TM]&#xA;      ,fee.[REF_DOCS_ETX_DAT_FLAG]&#xA;      ,fee.[CodeOrder]&#xA;      ,fee.[CreatedDate]&#xA;      ,fee.[ContentGivenTime]&#xA;      ,fee.[InclusionFlag]&#xA;      ,fee.[AcuteReadmitFlag]&#xA;      ,fee.[PotentialPlannedFlag]&#xA;      ,fee.[VisitCategoryKey]&#xA;&#x9;  /* add these in if we need to reconcile the ECDM */&#xA;&#x9;  ,cm.FactAssetId&#xA;&#x9;  ,cm.Title      &#xA;&#x9;  &#xA;&#x9;  ,case when cm.ContentFLag = 'Y' then 1&#xA;&#x9;    else 0&#xA;&#x9;   end as ContentFLag&#xA;&#x9;&#xA;  FROM [dbo].[FactEncounterEvent_v2] fee&#xA;  left outer join Stg.Asset_Codes_ContentMatch cm&#xA;   on  fee.DateKey = cm.DateKey&#xA;     and   fee.EncounterKey = cm.EncounterKey&#xA;     and   fee.PatientKey = cm.PatientKey&#xA;&#x9; and   fee.EncounterTypeKey = cm.EncounterTypeKey&#xA;&#x9; and   fee.DiagnosisCodeKey = cm.DiagnosisCodeKey&#xA;&#x9; and   fee.ProcedureCodeKey = cm.ProcedureCodeKey&#xA;&#x9; and   fee.ContentKey = cm.ContentKey&#xA;  where &#xA;/*fee.ContentKey &lt;&gt; 10047  and*/&#xA;fee.DateKey  &#xA; between (select &#xA;&#xA;convert(int,&#xA;convert(nvarchar(MAX),&#xA;dateadd(day,-30,&#xA;convert(datetime,&#xA;convert(char(10),(max(DateKey)),120)  &#xA;       )&#xA;    )&#xA;    , 112) &#xA;    )&#xA; &#xA;  from  dbo.FactEncounterEvent_v2 where contentFlag is null) &#xA;and &#xA;   (select &#xA;&#xA;   (max(DateKey))&#xA;&#xA;    from  dbo.FactEncounterEvent_v2 where contentFlag is null)&#xA;&#xA; ;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\StgAsset_Codes_ContentMatch - Insert Data where there is a match of COntent and Diagnosis Codes"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{41055355-9cee-46bf-ab7d-7f7c90773ebf}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="StgAsset_Codes_ContentMatch - Insert Data where there is a match of COntent and Diagnosis Codes"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="truncate table Stg.Asset_Codes_ContentMatch;&#xA;&#xA;insert into Stg.Asset_Codes_ContentMatch&#xA; select  distinct&#xA;        fee.DateKey,&#xA;        fee.EncounterKey,&#xA;        fee.PatientKey,&#xA;&#x9;&#x9;fee.EncounterTypeKey,&#xA;&#x9;&#x9;fee.DiagnosisCodeKey,&#xA;&#x9;&#x9;fee.ProcedureCodeKey,&#xA;&#x9;&#x9;fee.ContentKey,&#xA;&#x9;&#x9;tst.FactAssetId,&#xA;&#x9;&#x9;tst.Title,&#xA;         'Y' as ContentFlag&#xA;&#x9;&#x9; &#xA;    from [dbo].[FactEncounterEvent_v2] fee&#xA;&#x9; join   Stg.Asset_Codes_BridgeTable tst&#xA;&#x9;&#x9;   on fee.EncounterKey = tst.EncounterKey&#xA;&#x9;&#x9;  and fee.PatientKey   = tst.PatientKey&#xA;&#x9;&#x9;  and fee.DateKey      = tst.DateKey&#xA;&#x9;&#x9;  and fee.EncounterTypeKey = tst.EncounterTypeKey&#xA;&#x9;&#x9;  and fee.DiagnosisCodeKey = tst.DiagnosisCodeKey&#xA;&#x9;&#x9;  and fee.ProcedureCodeKey = tst.ProcedureCodeKey&#xA;&#x9;&#x9;  and fee.ContentKey       = tst.ContentKey&#xA;&#x9;&#x9;&#x9;   where &#xA;/*fee.ContentKey &lt;&gt; 10047  and*/&#xA;fee.DateKey  &#xA; between (select &#xA;&#xA;convert(int,&#xA;convert(nvarchar(MAX),&#xA;dateadd(day,-30,&#xA;convert(datetime,&#xA;convert(char(10),(max(DateKey)),120)  &#xA;       )&#xA;    )&#xA;    , 112) &#xA;    )&#xA; &#xA;  from  dbo.FactEncounterEvent_v2 where contentFlag is null) &#xA;and &#xA;   (select &#xA;&#xA;   (max(DateKey))&#xA;&#xA;    from  dbo.FactEncounterEvent_v2 where contentFlag is null)&#xA;&#xA; ;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2 - #5 Flag for No Diagnosis or Procedure code but Content was given"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{58c9efcf-7c03-40d8-b49a-7c3b0e78e4fa}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2 - #5 Flag for No Diagnosis or Procedure code but Content was given"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="&#xA; update dbo.FactEncounterEvent_v2&#xA;   set ContentFlag = 5&#xA;FROM [dbo].[FactEncounterEvent_v2] fee&#xA;  left outer join Stg.Asset_Codes_ContentMatch cm&#xA;   on  fee.DateKey = cm.DateKey&#xA;     and   fee.EncounterKey = cm.EncounterKey&#xA;     and   fee.PatientKey = cm.PatientKey&#xA;&#x9;-- and   fee.EncounterTypeKey = cm.EncounterTypeKey&#xA;&#x9;-- and   fee.DiagnosisCodeKey &lt;&gt; cm.DiagnosisCodeKey&#xA;&#x9; --and   fee.ProcedureCodeKey = cm.ProcedureCodeKey&#xA;&#x9; ---  People who did not have a diagnosis and got content&#xA;&#x9;-- and   fee.ContentKey = cm.ContentKey&#xA;  where &#xA;--fee.ContentFlag is null&#xA;--and &#xA;fee.DiagnosisCodeKey = 11412&#xA;and fee.ProcedureCodeKey = 6496&#xA;and cm.ContentKey &lt;&gt; 10047&#xA;&#xA;/*&#xA;and &#xA;fee.DateKey  &#xA; between (select &#xA;&#xA;convert(int,&#xA;convert(nvarchar(MAX),&#xA;dateadd(day,-30,&#xA;convert(datetime,&#xA;convert(char(10),(max(DateKey)),120)  &#xA;       )&#xA;    )&#xA;    , 112) &#xA;    )&#xA; &#xA;  from  dbo.FactEncounterEvent_v2 &#xA;--where contentFlag is null&#xA;) &#xA;and &#xA;   (select &#xA;&#xA;   (max(DateKey))&#xA;&#xA;    from  dbo.FactEncounterEvent_v2 &#xA;--where contentFlag is null&#xA;)&#xA;*/&#xA;;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2 - #6 Flag for Diagnosis or Procedure code Provided but No Content was given"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{91d93080-760f-4c5f-a27e-c8b7d21e514e}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2 - #6 Flag for Diagnosis or Procedure code Provided but No Content was given"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="&#xA; update dbo.FactEncounterEvent_v2&#xA;   set ContentFlag = 6&#xA;FROM [dbo].[FactEncounterEvent_v2] fee&#xA;  left outer join Stg.Asset_Codes_ContentMatch cm&#xA;   on  fee.DateKey = cm.DateKey&#xA;     and   fee.EncounterKey = cm.EncounterKey&#xA;     and   fee.PatientKey = cm.PatientKey&#xA; -- and   fee.EncounterTypeKey = cm.EncounterTypeKey&#xA; -- and   fee.DiagnosisCodeKey &lt;&gt; cm.DiagnosisCodeKey&#xA;  --and   fee.ProcedureCodeKey = cm.ProcedureCodeKey&#xA;  ---  People who did not have a diagnosis and got content&#xA; -- and   fee.ContentKey = cm.ContentKey&#xA;  where &#xA;--fee.ContentFlag is null&#xA;--and &#xA;fee.DiagnosisCodeKey &lt;&gt; 11412&#xA;and fee.ProcedureCodeKey &lt;&gt; 6496&#xA;and cm.ContentKey = 10047&#xA;&#xA;/*&#xA;and &#xA;fee.DateKey  &#xA; between (select &#xA;&#xA;convert(int,&#xA;convert(nvarchar(MAX),&#xA;dateadd(day,-30,&#xA;convert(datetime,&#xA;convert(char(10),(max(DateKey)),120)  &#xA;       )&#xA;    )&#xA;    , 112) &#xA;    )&#xA; &#xA;  from  dbo.FactEncounterEvent_v2 &#xA;---where contentFlag is null&#xA;) &#xA;and &#xA;   (select &#xA;&#xA;   (max(DateKey))&#xA;&#xA;    from  dbo.FactEncounterEvent_v2 &#xA;--where contentFlag is null&#xA;)&#xA;*/&#xA;;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2 from stg with Flag 3 - Parkview Content matches"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{8654a367-beeb-42a3-872f-7041a380d6d6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2 from stg with Flag 3 - Parkview Content matches"
+      DTS:ThreadHint="4">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="update dbo.FactEncounterEvent_v2&#xA;  set ContentFlag = 3&#xA; from dbo.vwPark134_FactEncounterEvent_v2 fact&#xA;   join stg.CF_DPCMatch mat on fact.EncounterKey = mat.EncounterKey&#xA;                      and fact.DateKey = mat.DateKey&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;  and fact.PatientKey = mat.PatientKey&#xA; where Matching = 'ContentMatch'&#xA; ;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2 with case where encounter and content flags are not captured in above steps - #-1"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{b3e4ddbc-42d1-4b40-b852-c446996b6eb1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2 with case where encounter and content flags are not captured in above steps - #-1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="Update dbo.FactEncounterEvent_v2&#xA;&#x9;  set ContentFlag = -1&#xA; where &#xA; contentFlag is null &#xA;and&#xA;DateKey between (select &#xA;&#xA;convert(int,&#xA;convert(nvarchar(MAX),&#xA;dateadd(day,-30,&#xA;convert(datetime,&#xA;convert(char(10),(max(DateKey)),120)  &#xA;       )&#xA;    )&#xA;    , 112) &#xA;    )&#xA; &#xA;  from  dbo.FactEncounterEvent_v2 where contentFlag is null) &#xA;and &#xA;   (select &#xA;&#xA;   (max(DateKey))&#xA;&#xA;    from  dbo.FactEncounterEvent_v2 where contentFlag is null)&#xA;&#xA; ;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2 with Flag - #4 content does not match codes"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3ce045db-dd69-4d39-b8e6-07e77a104e10}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2 with Flag - #4 content does not match codes"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;   set ContentFlag = 4  &#xA;  FROM [dbo].[FactEncounterEvent_v2] fee&#xA;  left outer join Stg.Asset_Codes_ContentMatch cm&#xA;   on  fee.DateKey = cm.DateKey&#xA;     and   fee.EncounterKey = cm.EncounterKey&#xA;     and   fee.PatientKey = cm.PatientKey&#xA;&#x9; and   fee.EncounterTypeKey = cm.EncounterTypeKey&#xA;&#x9; and   fee.DiagnosisCodeKey &lt;&gt; cm.DiagnosisCodeKey&#xA;&#x9; and   fee.ProcedureCodeKey &lt;&gt; cm.ProcedureCodeKey&#xA;&#x9; ---   People who had a diagnosis and got content but the content did not match it &#xA;&#x9; and   fee.ContentKey &lt;&gt; cm.ContentKey&#xA;  where &#xA;fee.ContentKey &lt;&gt; 10047   --269192&#xA;--and fee.contentFlag is null&#xA;&#xA; ;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2 with Flag - #7 custom content where Dx &amp; Px codes not none"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{258beb4f-97be-4ede-abf6-93aace1f078f}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2 with Flag - #7 custom content where Dx &amp; Px codes not none"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="  Update dbo.FactEncounterEvent_v2 &#xA;   set ContentFlag = 7&#xA; where ContentKey in (select distinct(ContentKey) from dbo.DimContent where hwid like '%100')&#xA;  and (DiagnosisCodeKey &lt;&gt; '10858'&#xA;      or ProcedureCodeKey &lt;&gt; '6496')&#xA; --and contentflag is null&#xA;&#x9;  " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2 with Flag - #8 custom content where Dx &amp; Px codes equals none"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{213f4b1c-2b55-4069-bc34-7c5c836cc4b6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2 with Flag - #8 custom content where Dx &amp; Px codes equals none"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="Update dbo.FactEncounterEvent_v2 &#xA;&#x9;   set ContentFlag = 8&#xA;&#x9; where ContentKey in (select distinct(ContentKey) from dbo.DimContent where hwid like '%100')&#xA;&#x9;  and DiagnosisCodeKey = '10858'&#xA;&#x9;  and ProcedureCodeKey = '6496'&#xA;&#x9;--  and ContentFlag is null" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2 with Flag 1  -  content matches at least one dx code"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{b6858c72-5e0f-451f-915c-3ca918bb3447}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2 with Flag 1  -  content matches at least one dx code"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource=" update dbo.FactEncounterEvent_v2&#xA;   set ContentFlag = 1&#xA;FROM [dbo].[FactEncounterEvent_v2] fee&#xA;  left outer join Stg.Asset_Codes_ContentMatch cm&#xA;   on  fee.DateKey = cm.DateKey&#xA;     and   fee.EncounterKey = cm.EncounterKey&#xA;     and   fee.PatientKey = cm.PatientKey&#xA;&#x9;-- and   fee.EncounterTypeKey = cm.EncounterTypeKey&#xA;&#x9; and   fee.DiagnosisCodeKey = cm.DiagnosisCodeKey&#xA;&#x9; --and   fee.ProcedureCodeKey = cm.ProcedureCodeKey&#xA;&#x9; ---  People who had a diagnosis and did not get content&#xA;&#x9; --and   fee.ContentKey &lt;&gt; cm.ContentKey&#xA;  where &#xA;(fee.ContentKey is null &#xA;OR fee.ContentKey &lt;&gt;  10047)&#xA;and fee.DiagnosisCodeKey &lt;&gt; 11412&#xA;--and fee.contentFlag is null&#xA;;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2 with Flag 2  -  content matches at least one Procedure code"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{55be0358-e3b3-440f-a5b8-e866182526c7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2 with Flag 2  -  content matches at least one Procedure code"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource=" update dbo.FactEncounterEvent_v2&#xA;   set ContentFlag = 2&#xA;FROM [dbo].[FactEncounterEvent_v2] fee&#xA;  left outer join Stg.Asset_Codes_ContentMatch cm&#xA;   on  fee.DateKey = cm.DateKey&#xA;     and   fee.EncounterKey = cm.EncounterKey&#xA;     and   fee.PatientKey = cm.PatientKey&#xA; -- and   fee.EncounterTypeKey = cm.EncounterTypeKey&#xA;  --and   fee.DiagnosisCodeKey = cm.DiagnosisCodeKey&#xA;  and   fee.ProcedureCodeKey = cm.ProcedureCodeKey&#xA;  ---  People who had a diagnosis and did not get content&#xA;  --and   fee.ContentKey &lt;&gt; cm.ContentKey&#xA;  where &#xA;(fee.ContentKey is null &#xA;OR fee.ContentKey &lt;&gt;  10047)&#xA;and fee.ProcedureCodeKey &lt;&gt; 6496&#xA;--and fee.contentFlag is null&#xA;;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2 with Flag 3 - OSU stg Content matches at least a Dx or Procedure Code"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{21ca8bd4-57c9-4e8e-a357-e46bf67a7e97}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2 with Flag 3 - OSU stg Content matches at least a Dx or Procedure Code"
+      DTS:ThreadHint="3">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="truncate table stg.CF_DPCMatch;&#xA;&#xA;insert into stg.CF_DPCMatch&#xA;select Fact.DateKey,&#xA;       Fact.EncounterKey,&#xA;    Fact.PatientKey,&#xA;    Fact.DiagnosisCodeKey,&#xA;    Dim.DiagnosisCode,&#xA;    Fact.ProcedureCodeKey,&#xA;    Fact.ContentKey,&#xA;    case when Fact.ContentKey in (select distinct ContentCodeKey from stg.Asset_Codes where DiagnosisCode in (&#xA;          select distinct Dim.DiagnosisCode&#xA;            from dbo.vwOhio643_FactEncounterEvent_v2 fact&#xA;           join dbo.DimDiagnosisCode dim on Fact.DiagnosisCodeKey = dim.DiagnosisCodeKey&#xA;           where fact.encounterKey in ( select distinct(encounterKey) from stg.CF_DiagnosisAndProcedureCodesWithContents)&#xA;             --and DiagnosisCode &lt;&gt; 'N/A'&#xA;             )&#xA;             ) then 'ContentMatch'&#xA;   else 'NoMatch'&#xA;  end as Matching&#xA;  from dbo.vwOhio643_FactEncounterEvent_v2 fact&#xA;   join dbo.DimDiagnosisCode dim on Fact.DiagnosisCodeKey = dim.DiagnosisCodeKey&#xA;   where fact.encounterKey in ( select distinct(encounterKey) from stg.CF_DiagnosisAndProcedureCodesWithContents )&#xA;order by Fact.EncounterKey;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2 with Flag 3 - Parkview Content matches at least a Dx or Procedure Code"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{6d429a43-8289-4ba1-b4c0-7d56564b3d9b}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2 with Flag 3 - Parkview Content matches at least a Dx or Procedure Code"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="-----------------------------------------------&#xA;--      PARKVIEW                         ------&#xA;-----------------------------------------------&#xA;drop table #encounterkey;&#xA;drop table #ProcedureCodesWithContent;&#xA;drop table #DiagnosisCodesWithContent;&#xA;drop table #DiagnosisAndProcedureCodesWithContent;&#xA;drop table #DPCMatch;&#xA;-----------------------------------------------&#xA;--      step 1                               --&#xA;-----------------------------------------------&#xA;--get encounter that has content that isn't N/A&#xA;select distinct EncounterKey into #encounterkey from dbo.vwPark134_FactEncounterEvent_v2  &#xA;&#x9;  where ContentKey &lt;&gt; 10047 ;&#xA;-----------------------------------------------&#xA;--      step 2                               --&#xA;-----------------------------------------------&#xA;-- evaluate those encounters who then don't have a procedure code of N/A&#xA;-- encounters with a diagnosis Code &lt;&gt; none &amp; content code &lt;&gt; none. Does the content provided match?&#xA;select distinct encounterKey &#xA;   into #ProcedureCodesWithContent&#xA;from dbo.vwPark134_FactEncounterEvent_v2  &#xA;where EncounterKey in (select distinct EncounterKey from #encounterkey)&#xA;and ProcedureCodeKey &lt;&gt; 6496&#xA;;&#xA;-----------------------------------------------&#xA;--      step 3                               --&#xA;-----------------------------------------------     &#xA;-- evaluate those encounters who then don't have a procedure code of N/A&#xA;select distinct encounterKey &#xA;   into #DiagnosisCodesWithContent&#xA;from dbo.vwPark134_FactEncounterEvent_v2  &#xA;where EncounterKey in (select distinct EncounterKey from #encounterkey)&#xA;and DiagnosisCodeKey not in (10858,11412)&#xA;;&#xA;-----------------------------------------------&#xA;--      step 4                               --&#xA;-----------------------------------------------&#xA;select distinct encounterKey &#xA;   into #DiagnosisAndProcedureCodesWithContent&#xA;from dbo.FactEncounterEvent_v2  &#xA;where EncounterKey in (select distinct EncounterKey from #encounterkey)&#xA;  and EncounterKey in (select distinct EncounterKey from #ProcedureCodesWithContent)&#xA;  and EncounterKey in (select distinct EncounterKey from #DiagnosisCodesWithContent)&#xA;  ;&#xA;-----------------------------------------------&#xA;--      step 5                               --&#xA;-----------------------------------------------&#xA;select Fact.DateKey, &#xA;       Fact.EncounterKey,&#xA;&#x9;   Fact.PatientKey,&#xA;&#x9;   Fact.DiagnosisCodeKey,&#xA;&#x9;   Dim.DiagnosisCode,&#xA;&#x9;   Fact.ProcedureCodeKey,&#xA;&#x9;   Fact.ContentKey,&#xA;&#x9;   case when Fact.ContentKey in (select distinct ContentCodeKey from stg.Asset_Codes where DiagnosisCode in (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;select distinct Dim.DiagnosisCode&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  from dbo.FactEncounterEvent_v2 fact &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;join dbo.DimDiagnosisCode dim on Fact.DiagnosisCodeKey = dim.DiagnosisCodeKey&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; where fact.encounterKey in ( select distinct(encounterKey) from #DiagnosisAndProcedureCodesWithContent)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   --and DiagnosisCode &lt;&gt; 'N/A'&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   )&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;     ) then 'ContentMatch' &#xA;&#x9;&#x9;&#x9;else 'NoMatch'&#xA;&#x9;&#x9;end as Matching&#xA;into #DPCMatch&#xA;  from dbo.FactEncounterEvent_v2 fact &#xA;   join dbo.DimDiagnosisCode dim on Fact.DiagnosisCodeKey = dim.DiagnosisCodeKey&#xA;   where fact.encounterKey in ( select distinct(encounterKey) from #DiagnosisAndProcedureCodesWithContent )&#xA;order by Fact.EncounterKey&#xA;;&#xA;-----------------------------------------------&#xA;--      step 6                               --&#xA;-----------------------------------------------&#xA;update dbo.FactEncounterEvent_v2 &#xA;  set ContentFlag = 3&#xA; from dbo.FactEncounterEvent_v2 fact&#xA;   join #DPCMatch mat on fact.EncounterKey = mat.EncounterKey&#xA;                      and fact.DateKey = mat.DateKey&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;  and fact.PatientKey = mat.PatientKey&#xA; where Matching = 'ContentMatch'&#xA; ;&#xA;&#xA; drop table #encounterkey;&#xA;drop table #ProcedureCodesWithContent;&#xA;drop table #DiagnosisCodesWithContent;&#xA;drop table #DiagnosisAndProcedureCodesWithContent;&#xA;drop table #DPCMatch;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2 with Flag 3 - Parkview stg Content matches at least a Dx or Procedure Code"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{39a5b3a7-e1ae-4e55-8445-b30e2484b3d9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2 with Flag 3 - Parkview stg Content matches at least a Dx or Procedure Code"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="truncate table stg.CF_DPCMatch;&#xA;&#xA;insert into stg.CF_DPCMatch&#xA;select Fact.DateKey,&#xA;       Fact.EncounterKey,&#xA;&#x9;   Fact.PatientKey,&#xA;&#x9;   Fact.DiagnosisCodeKey,&#xA;&#x9;   Dim.DiagnosisCode,&#xA;&#x9;   Fact.ProcedureCodeKey,&#xA;&#x9;   Fact.ContentKey,&#xA;&#x9;   case when Fact.ContentKey in (select distinct ContentCodeKey from stg.Asset_Codes where DiagnosisCode in (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;select distinct Dim.DiagnosisCode&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  from dbo.vwPark134_FactEncounterEvent_v2 fact&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;join dbo.DimDiagnosisCode dim on Fact.DiagnosisCodeKey = dim.DiagnosisCodeKey&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; where fact.encounterKey in ( select distinct(encounterKey) from stg.CF_DiagnosisAndProcedureCodesWithContents)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   --and DiagnosisCode &lt;&gt; 'N/A'&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   )&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;     ) then 'ContentMatch'&#xA;&#x9;&#x9;&#x9;else 'NoMatch'&#xA;&#x9;&#x9;end as Matching&#xA;  from dbo.vwPark134_FactEncounterEvent_v2 fact&#xA;   join dbo.DimDiagnosisCode dim on Fact.DiagnosisCodeKey = dim.DiagnosisCodeKey&#xA;   where fact.encounterKey in ( select distinct(encounterKey) from stg.CF_DiagnosisAndProcedureCodesWithContents )&#xA;order by Fact.EncounterKey;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2 with Flag for Diagnosis where content matches"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{6020405f-765e-4e44-a4ed-b0c06f779300}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2 with Flag for Diagnosis where content matches"
+      DTS:ThreadHint="2">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="/*&#xA;&#x9;update dbo.FactEncounterEvent_v2&#xA;&#x9;  set ContentFlag = 1&#x9;  &#xA;&#x9;from dbo.FactEncounterEvent_v2 fact&#xA;&#x9;join  Stg.Asset_Codes_ContentFLagDemo tmp&#xA;&#x9; on    fact.DateKey = tmp.DateKey&#xA;     and   fact.EncounterKey = tmp.EncounterKey&#xA;     and   fact.PatientKey = tmp.PatientKey&#xA;&#x9; and   fact.EncounterTypeKey = tmp.EncounterTypeKey&#xA;&#x9; and   fact.DiagnosisCodeKey = tmp.DiagnosisCodeKey&#xA;&#x9; and   fact.ProcedureCodeKey = tmp.ProcedureCodeKey&#xA;&#x9; and   fact.ContentKey = tmp.ContentKey&#xA;where &#xA;--fact.ContentFlag is null&#xA;--and  &#xA;fact.DateKey  &#xA; between (select &#xA;&#xA;convert(int,&#xA;convert(nvarchar(MAX),&#xA;dateadd(day,-30,&#xA;convert(datetime,&#xA;convert(char(10),(max(DateKey)),120)  &#xA;       )&#xA;    )&#xA;    , 112) &#xA;    )&#xA; &#xA;  from  dbo.FactEncounterEvent_v2 where contentFlag is null) &#xA;and &#xA;   (select &#xA;&#xA;   (max(DateKey))&#xA;&#xA;    from  dbo.FactEncounterEvent_v2 where contentFlag is null)&#xA;&#xA; ;&#xA;*/&#xA;&#xA;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;   set ContentFlag = 1 &#xA;  FROM [dbo].[FactEncounterEvent_v2] fee&#xA;  left outer join Stg.Asset_Codes_ContentMatch cm&#xA;   on  fee.DateKey = cm.DateKey&#xA;     and   fee.EncounterKey = cm.EncounterKey&#xA;     and   fee.PatientKey = cm.PatientKey&#xA;&#x9; and   fee.EncounterTypeKey = cm.EncounterTypeKey&#xA;&#x9; and   fee.DiagnosisCodeKey = cm.DiagnosisCodeKey&#xA;&#x9; and   fee.ProcedureCodeKey = cm.ProcedureCodeKey&#xA;&#x9; and   fee.ContentKey = cm.ContentKey&#xA;--  where &#xA;--fee.ContentKey is null and&#xA;--fee.ContentKey &lt;&gt; 10047   --269192&#xA;&#xA;--and&#xA;/*&#xA;fee.DateKey  &#xA; between (select &#xA;&#xA;convert(int,&#xA;convert(nvarchar(MAX),&#xA;dateadd(day,-30,&#xA;convert(datetime,&#xA;convert(char(10),(max(DateKey)),120)  &#xA;       )&#xA;    )&#xA;    , 112) &#xA;    )&#xA; &#xA;  from  dbo.FactEncounterEvent_v2 where contentFlag is null) &#xA;and &#xA;   (select &#xA;&#xA;   (max(DateKey))&#xA;&#xA;    from  dbo.FactEncounterEvent_v2 where contentFlag is null)&#xA;*/&#xA; ;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2 with Flag for No Diagnosis and Content was not given - #0"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{0852058f-6ab7-4d4a-8d6e-91a10230a9d9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2 with Flag for No Diagnosis and Content was not given - #0"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="/*&#xA; update dbo.FactEncounterEvent_v2&#xA;   set ContentFlag = 0&#xA; from dbo.FactEncounterEvent_v2 fact&#xA;   join Stg.Asset_Codes_ContentMatch tmp&#xA;  on    fact.DateKey = tmp.DateKey&#xA;     and   fact.EncounterKey = tmp.EncounterKey&#xA;     and   fact.PatientKey = tmp.PatientKey&#xA;  and   fact.EncounterTypeKey = tmp.EncounterTypeKey&#xA;  --and   fact.DiagnosisCodeKey = tmp.DiagnosisCodeKey&#xA;  and   fact.ProcedureCodeKey = tmp.ProcedureCodeKey&#xA;  --and   fact.ContentKey &lt;&gt; tmp.ContentKey&#xA;where fact.DiagnosisCodeKey = 11412&#xA;  and tmp.ContentKey = 10047&#xA;and fact.DateKey  &#xA; between (select &#xA;&#xA;convert(int,&#xA;convert(nvarchar(MAX),&#xA;dateadd(day,-30,&#xA;convert(datetime,&#xA;convert(char(10),(max(DateKey)),120)  &#xA;       )&#xA;    )&#xA;    , 112) &#xA;    )&#xA; &#xA;  from  dbo.FactEncounterEvent_v2 &#xA;--where contentFlag is null&#xA;) &#xA;and &#xA;   (select &#xA;&#xA;   (max(DateKey))&#xA;&#xA;    from  dbo.FactEncounterEvent_v2 &#xA;--where contentFlag is null&#xA;)&#xA;&#xA; ;&#xA;*/&#xA; update dbo.FactEncounterEvent_v2&#xA;   set ContentFlag = 0&#xA;FROM [dbo].[FactEncounterEvent_v2] fee&#xA;  left outer join Stg.Asset_Codes_ContentMatch cm&#xA;   on  fee.DateKey = cm.DateKey&#xA;     and   fee.EncounterKey = cm.EncounterKey&#xA;     and   fee.PatientKey = cm.PatientKey&#xA;&#x9; and   fee.EncounterTypeKey = cm.EncounterTypeKey&#xA;&#x9;-- and   fee.DiagnosisCodeKey &lt;&gt; cm.DiagnosisCodeKey&#xA;&#x9; and   fee.ProcedureCodeKey = cm.ProcedureCodeKey&#xA;&#x9; ---  People who did not have a diagnosis and got content&#xA;&#x9; and   fee.ContentKey = cm.ContentKey&#xA;  where &#xA;--fee.contentFlag is null and&#xA;--fee.ContentKey &lt;&gt; 10047   --269192&#xA;fee.DiagnosisCodeKey = 11412&#xA;and fee.ContentKey = 10047&#xA;&#xA;/*&#xA;and &#xA;fee.DateKey  &#xA; between (select &#xA;&#xA;convert(int,&#xA;convert(nvarchar(MAX),&#xA;dateadd(day,-30,&#xA;convert(datetime,&#xA;convert(char(10),(max(DateKey)),120)  &#xA;       )&#xA;    )&#xA;    , 112) &#xA;    )&#xA; &#xA;  from  dbo.FactEncounterEvent_v2 &#xA;--where contentFlag is null&#xA;) &#xA;and &#xA;   (select &#xA;&#xA;   (max(DateKey))&#xA;&#xA;    from  dbo.FactEncounterEvent_v2 &#xA;--where contentFlag is null&#xA;)&#xA;*/&#xA; ;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update FactEncounterEvents_v2Rows by EncounterKey"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9ea96d28-8bf7-4ca4-9358-58c26f9345c1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update FactEncounterEvents_v2Rows by EncounterKey"
+      DTS:ThreadHint="5">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="------------------------------------------------&#xA;-- Order of Content Flags, as set by Ethan    --&#xA;-- 3, 1 &amp; 2, 7, 4, 6, 8, 5, 0, -1             --&#xA;------------------------------------------------&#xA;&#xA;-------------------------------------&#xA;--     step 1                      --&#xA;--  update all content flags where --&#xA;-- 1 row from the EncounterKey has --&#xA;-- a Cf set to 3                   --&#xA;-------------------------------------&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 3&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPark134_FactEncounterEvent_v2 where contentflag = 3)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 3&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPart300_FactEncounterEvent_v2 where contentflag = 3)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 3&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwWell434_FactEncounterEvent_v2 where contentflag = 3)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 3&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwOhio643_FactEncounterEvent_v2 where contentflag = 3)&#xA;;&#xA;-------------------------------------&#xA;--     step 2                      --&#xA;--  update all content flags where --&#xA;-- 1 row from the EncounterKey has --&#xA;-- a Cf set to 1                   --&#xA;-------------------------------------&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 1&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPark134_FactEncounterEvent_v2 where contentflag = 1)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 1&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPart300_FactEncounterEvent_v2 where contentflag = 1)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 1&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwWell434_FactEncounterEvent_v2 where contentflag = 1)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 1&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwOhio643_FactEncounterEvent_v2 where contentflag = 1)&#xA;;&#xA;-------------------------------------&#xA;--     step 3                      --&#xA;--  update all content flags where --&#xA;-- 1 row from the EncounterKey has --&#xA;-- a Cf set to 2                   --&#xA;-------------------------------------&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 2&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPark134_FactEncounterEvent_v2 where contentflag = 2)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 2&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPart300_FactEncounterEvent_v2 where contentflag = 2)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 2&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwWell434_FactEncounterEvent_v2 where contentflag = 2)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 2&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwOhio643_FactEncounterEvent_v2 where contentflag = 2)&#xA;;&#xA;-------------------------------------&#xA;--     step 4                      --&#xA;--  update all content flags where --&#xA;-- 1 row from the EncounterKey has --&#xA;-- a Cf set to 7                   --&#xA;-------------------------------------&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 7&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPark134_FactEncounterEvent_v2 where contentflag = 7)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 7&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPart300_FactEncounterEvent_v2 where contentflag = 7)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 7&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwWell434_FactEncounterEvent_v2 where contentflag = 7)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 7&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwOhio643_FactEncounterEvent_v2 where contentflag = 7)&#xA;;&#xA;-------------------------------------&#xA;--     step 5                      --&#xA;--  update all content flags where --&#xA;-- 1 row from the EncounterKey has --&#xA;-- a Cf set to 4                   --&#xA;-------------------------------------&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 4&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPark134_FactEncounterEvent_v2 where contentflag = 4)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 4&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPart300_FactEncounterEvent_v2 where contentflag = 4)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 4&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwWell434_FactEncounterEvent_v2 where contentflag = 4)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 4&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwOhio643_FactEncounterEvent_v2 where contentflag = 4)&#xA;;&#xA;-------------------------------------&#xA;--     step 6                      --&#xA;--  update all content flags where --&#xA;-- 1 row from the EncounterKey has --&#xA;-- a Cf set to 6                   --&#xA;-------------------------------------&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 6&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPark134_FactEncounterEvent_v2 where contentflag = 6)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 6&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPart300_FactEncounterEvent_v2 where contentflag = 6)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 6&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwWell434_FactEncounterEvent_v2 where contentflag = 6)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 6&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwOhio643_FactEncounterEvent_v2 where contentflag = 6)&#xA;;&#xA;-------------------------------------&#xA;--     step 7                      --&#xA;--  update all content flags where --&#xA;-- 1 row from the EncounterKey has --&#xA;-- a Cf set to 8                   --&#xA;-------------------------------------&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 8&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPark134_FactEncounterEvent_v2 where contentflag = 8)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 8&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPart300_FactEncounterEvent_v2 where contentflag = 8)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 8&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwWell434_FactEncounterEvent_v2 where contentflag = 8)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 8&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwOhio643_FactEncounterEvent_v2 where contentflag = 8)&#xA;;&#xA;&#xA;-------------------------------------&#xA;--     step 8                      --&#xA;--  update all content flags where --&#xA;-- 1 row from the EncounterKey has --&#xA;-- a Cf set to 5                   --&#xA;-------------------------------------&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 5&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPark134_FactEncounterEvent_v2 where contentflag = 5)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 5&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPart300_FactEncounterEvent_v2 where contentflag = 5)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 5&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwWell434_FactEncounterEvent_v2 where contentflag = 5)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 5&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwOhio643_FactEncounterEvent_v2 where contentflag = 5)&#xA;;&#xA;-------------------------------------&#xA;--     step 9                      --&#xA;--  update all content flags where --&#xA;-- 1 row from the EncounterKey has --&#xA;-- a Cf set to 0                   --&#xA;-------------------------------------&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 0&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPark134_FactEncounterEvent_v2 where contentflag = 0)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 0&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPart300_FactEncounterEvent_v2 where contentflag = 0)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 0&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwWell434_FactEncounterEvent_v2 where contentflag = 0)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = 0&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwOhio643_FactEncounterEvent_v2 where contentflag = 0)&#xA;;&#xA;-------------------------------------&#xA;--     step 9                      --&#xA;--  update all content flags where --&#xA;-- 1 row from the EncounterKey has --&#xA;-- a Cf set to -1                   --&#xA;-------------------------------------&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = -1&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPark134_FactEncounterEvent_v2 where contentflag = -1)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = -1&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwPart300_FactEncounterEvent_v2 where contentflag = -1)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = -1&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwWell434_FactEncounterEvent_v2 where contentflag = -1)&#xA;;&#xA;&#xA;update dbo.FactEncounterEvent_v2&#xA;  set contentFlag = -1&#xA;  where encounterKey in (&#xA;select distinct(encounterKey) from vwOhio643_FactEncounterEvent_v2 where contentflag = -1)&#xA;;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{AC23784F-FD63-45A7-A47E-8F6304A821BA}"
+      DTS:From="Package\StgAsset_Codes_BridgeTable - Create Bridge Table that associates Encounter to HWID"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\StgAsset_Codes_ContentMatch - Insert Data where there is a match of COntent and Diagnosis Codes" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{57CFE055-6AEF-44A2-9555-43B26E5A9A9E}"
+      DTS:From="Package\StgAsset_Codes_ContentMatch - Insert Data where there is a match of COntent and Diagnosis Codes"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\StgAsset_Codes_ContentFlagDemo - Insert Data into ContentFlag Demo - used to update in Fact table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 10]"
+      DTS:CreationName=""
+      DTS:DTSID="{53BDAFCD-9524-4951-8AC7-516570A3B3C6}"
+      DTS:From="Package\StgAsset_Codes - Get Codes for HWIDs"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 10"
+      DTS:To="Package\StgAsset_Codes_BridgeTable - Create Bridge Table that associates Encounter to HWID" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 11]"
+      DTS:CreationName=""
+      DTS:DTSID="{FBEDB686-2CD9-43B7-B8BB-B2EB130AEE9D}"
+      DTS:From="Package\Update FactEncounterEvents_v2 with Flag - #7 custom content where Dx &amp; Px codes not none"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 11"
+      DTS:To="Package\Update FactEncounterEvents_v2 with Flag - #4 content does not match codes" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 12]"
+      DTS:CreationName=""
+      DTS:DTSID="{3FC22A20-E92D-43AC-BDE9-6136ED368D44}"
+      DTS:From="Package\Update FactEncounterEvents_v2 - #6 Flag for Diagnosis or Procedure code Provided but No Content was given"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 12"
+      DTS:To="Package\Update FactEncounterEvents_v2 - #5 Flag for No Diagnosis or Procedure code but Content was given" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{0567DBEE-49BD-4D92-8254-FEEA2CAA8C9A}"
+      DTS:From="Package\StgAsset_Codes_ContentFlagDemo - Insert Data into ContentFlag Demo - used to update in Fact table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Update FactEncounterEvents_v2 with Flag 3 - Parkview Content matches at least a Dx or Procedure Code" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{F5E2FCAC-258C-4642-A41B-50919916B260}"
+      DTS:From="Package\Update FactEncounterEvents_v2 with Flag - #4 content does not match codes"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Update FactEncounterEvents_v2 with Flag - #8 custom content where Dx &amp; Px codes equals none" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{383AE445-1DDA-43F7-96DF-B9E6408878F2}"
+      DTS:From="Package\Update FactEncounterEvents_v2 with Flag - #8 custom content where Dx &amp; Px codes equals none"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Update FactEncounterEvents_v2 - #6 Flag for Diagnosis or Procedure code Provided but No Content was given" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{71FA756A-5822-4EF0-A9A4-98A84235E839}"
+      DTS:From="Package\Update FactEncounterEvents_v2 with Flag 3 - Parkview Content matches at least a Dx or Procedure Code"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Update FactEncounterEvents_v2 with Flag 1  -  content matches at least one dx code" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{6FE1753B-B975-446B-93D2-E2E9D355E721}"
+      DTS:From="Package\Update FactEncounterEvents_v2 - #5 Flag for No Diagnosis or Procedure code but Content was given"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Update FactEncounterEvents_v2 with Flag for No Diagnosis and Content was not given - #0" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{91B51673-80E2-4CB3-B1B1-14E5F03C2FF0}"
+      DTS:From="Package\Update FactEncounterEvents_v2 with Flag for No Diagnosis and Content was not given - #0"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\Update FactEncounterEvents_v2 with case where encounter and content flags are not captured in above steps - #-1" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 8]"
+      DTS:CreationName=""
+      DTS:DTSID="{16D4C596-FB55-45EE-B2FA-8F63B41DE01C}"
+      DTS:From="Package\Update FactEncounterEvents_v2 with Flag 1  -  content matches at least one dx code"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 8"
+      DTS:To="Package\Update FactEncounterEvents_v2 with Flag 2  -  content matches at least one Procedure code" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 9]"
+      DTS:CreationName=""
+      DTS:DTSID="{17CC89E7-FD4A-47E1-9DD5-3C7614F75535}"
+      DTS:From="Package\Update FactEncounterEvents_v2 with Flag 2  -  content matches at least one Procedure code"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 9"
+      DTS:To="Package\Update FactEncounterEvents_v2 with Flag - #7 custom content where Dx &amp; Px codes not none" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="231,42"
+          Id="Package\StgAsset_Codes - Get Codes for HWIDs"
+          TopLeft="202,29" />
+        <NodeLayout
+          Size="340,42"
+          Id="Package\StgAsset_Codes_BridgeTable - Create Bridge Table that associates Encounter to HWID"
+          TopLeft="200,90" />
+        <NodeLayout
+          Size="386,42"
+          Id="Package\StgAsset_Codes_ContentFlagDemo - Insert Data into ContentFlag Demo - used to update in Fact table"
+          TopLeft="186,269" />
+        <NodeLayout
+          Size="399,42"
+          Id="Package\StgAsset_Codes_ContentMatch - Insert Data where there is a match of COntent and Diagnosis Codes"
+          TopLeft="197,190" />
+        <NodeLayout
+          Size="467,42"
+          Id="Package\Update FactEncounterEvents_v2 - #5 Flag for No Diagnosis or Procedure code but Content was given"
+          TopLeft="218.75,827.75" />
+        <NodeLayout
+          Size="467,42"
+          Id="Package\Update FactEncounterEvents_v2 - #6 Flag for Diagnosis or Procedure code Provided but No Content was given"
+          TopLeft="219.5,710.75" />
+        <NodeLayout
+          Size="599,42"
+          Id="Package\Update FactEncounterEvents_v2 with case where encounter and content flags are not captured in above steps - #-1"
+          TopLeft="200,989" />
+        <NodeLayout
+          Size="489,42"
+          Id="Package\Update FactEncounterEvents_v2 with Flag - #4 content does not match codes"
+          TopLeft="220.5,566.75" />
+        <NodeLayout
+          Size="526,42"
+          Id="Package\Update FactEncounterEvents_v2 with Flag - #7 custom content where Dx &amp; Px codes not none"
+          TopLeft="218.75,502.5" />
+        <NodeLayout
+          Size="526,42"
+          Id="Package\Update FactEncounterEvents_v2 with Flag - #8 custom content where Dx &amp; Px codes equals none"
+          TopLeft="214,639" />
+        <NodeLayout
+          Size="480,42"
+          Id="Package\Update FactEncounterEvents_v2 with Flag 1  -  content matches at least one dx code"
+          TopLeft="218.75,386.5" />
+        <NodeLayout
+          Size="516,42"
+          Id="Package\Update FactEncounterEvents_v2 with Flag 2  -  content matches at least one Procedure code"
+          TopLeft="220.75,444.25" />
+        <NodeLayout
+          Size="575,42"
+          Id="Package\Update FactEncounterEvents_v2 with Flag 3 - Parkview Content matches at least a Dx or Procedure Code"
+          TopLeft="215,327.5" />
+        <NodeLayout
+          Size="593,42"
+          Id="Package\Update FactEncounterEvents_v2 with Flag 3 - Parkview stg Content matches at least a Dx or Procedure Code"
+          TopLeft="1265.85714285714,71.142857142857" />
+        <NodeLayout
+          Size="456,42"
+          Id="Package\Update FactEncounterEvents_v2 with Flag for Diagnosis where content matches"
+          TopLeft="749,13" />
+        <NodeLayout
+          Size="488,42"
+          Id="Package\Update FactEncounterEvents_v2 with Flag for No Diagnosis and Content was not given - #0"
+          TopLeft="201,902" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="370,132">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="26.5,58"
+              Start="0,0"
+              End="26.5,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25"
+                    Point2="0,29"
+                    Point3="4,29" />
+                  <mssgle:LineSegment
+                    End="22.5,29" />
+                  <mssgle:CubicBezierSegment
+                    Point1="22.5,29"
+                    Point2="26.5,29"
+                    Point3="26.5,33" />
+                  <mssgle:LineSegment
+                    End="26.5,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="396.5,232">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-17.5,37"
+              Start="0,0"
+              End="-17.5,29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.5"
+                    Point2="0,18.5"
+                    Point3="-4,18.5" />
+                  <mssgle:LineSegment
+                    End="-13.5,18.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-13.5,18.5"
+                    Point2="-17.5,18.5"
+                    Point3="-17.5,22.5" />
+                  <mssgle:LineSegment
+                    End="-17.5,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 10]"
+          TopLeft="433,50">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-63,40"
+              Start="0,0"
+              End="-63,32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-59,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-59,0"
+                    Point2="-63,0"
+                    Point3="-63,4" />
+                  <mssgle:LineSegment
+                    End="-63,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 11]"
+          TopLeft="481.75,544.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="227.75,43.25"
+              Start="0,0"
+              End="220.25,43.25">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,39.25"
+                    Point2="0,43.25"
+                    Point3="4,43.25" />
+                  <mssgle:LineSegment
+                    End="220.25,43.25" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 12]"
+          TopLeft="452.625,752.75">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,75"
+              Start="0,0"
+              End="0,67.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,67.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="572,290">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-92,37.5"
+              Start="0,0"
+              End="-92,30">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-88,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-88,0"
+                    Point2="-92,0"
+                    Point3="-92,4" />
+                  <mssgle:LineSegment
+                    End="-92,30" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="465,608.75">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="12,30.25"
+              Start="0,0"
+              End="12,22.75">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.125" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,11.125"
+                    Point2="0,15.125"
+                    Point3="4,15.125" />
+                  <mssgle:LineSegment
+                    End="8,15.125" />
+                  <mssgle:CubicBezierSegment
+                    Point1="8,15.125"
+                    Point2="12,15.125"
+                    Point3="12,19.125" />
+                  <mssgle:LineSegment
+                    End="12,22.75" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="477,681">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-24,29.75"
+              Start="0,0"
+              End="-24,22.25">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,10.875" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,10.875"
+                    Point2="0,14.875"
+                    Point3="-4,14.875" />
+                  <mssgle:LineSegment
+                    End="-20,14.875" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-20,14.875"
+                    Point2="-24,14.875"
+                    Point3="-24,18.875" />
+                  <mssgle:LineSegment
+                    End="-24,22.25" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="480,369.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="218.75,32.3333333333333"
+              Start="0,0"
+              End="211.25,32.3333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.3333333333333" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,28.3333333333333"
+                    Point2="0,32.3333333333333"
+                    Point3="4,32.3333333333333" />
+                  <mssgle:LineSegment
+                    End="211.25,32.3333333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="448.625,869.75">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,32.25"
+              Start="0,0"
+              End="0,24.75">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.75" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="445,944">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="54.5,45"
+              Start="0,0"
+              End="54.5,37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.5"
+                    Point2="0,22.5"
+                    Point3="4,22.5" />
+                  <mssgle:LineSegment
+                    End="50.5,22.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="50.5,22.5"
+                    Point2="54.5,22.5"
+                    Point3="54.5,26.5" />
+                  <mssgle:LineSegment
+                    End="54.5,37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 8]"
+          TopLeft="698.75,413.166666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-220,31.0833333333333"
+              Start="0,0"
+              End="-220,23.5833333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-216,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-216,0"
+                    Point2="-220,0"
+                    Point3="-220,4" />
+                  <mssgle:LineSegment
+                    End="-220,23.5833333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 9]"
+          TopLeft="220.75,465.25">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-2,58.25"
+              Start="0,0"
+              End="-9.5,58.25">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-20.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-20.5,0"
+                    Point2="-24.5,0"
+                    Point3="-24.5,4" />
+                  <mssgle:LineSegment
+                    End="-24.5,54.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-24.5,54.25"
+                    Point2="-24.5,58.25"
+                    Point3="-20.5,58.25" />
+                  <mssgle:LineSegment
+                    End="-9.5,58.25" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="575,42"
+          Id="Package\Update FactEncounterEvents_v2 from stg with Flag 3 - Parkview Content matches"
+          TopLeft="1184,133" />
+        <NodeLayout
+          Size="571,42"
+          Id="Package\Update FactEncounterEvents_v2 with Flag 3 - OSU stg Content matches at least a Dx or Procedure Code"
+          TopLeft="1267,209" />
+        <NodeLayout
+          Size="571,42"
+          Id="Package\Update FactEncounterEvents_v2Rows by EncounterKey"
+          TopLeft="1380,416" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <ConnectionManager
+    design-time-name="Package.ConnectionManagers[asazure://westus.asazure.windows.net/azwphaas01.POC]">
+    <ProjectReferenceName></ProjectReferenceName>
+  </ConnectionManager>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:DelayValidation="True"
+  DTS:ObjectName="ClientOutcomesFromEMR"
+  DTS:DTSID="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=azw-pha-db01.database.windows.net;User ID=miadmin;Initial Catalog=ClientOutcomesFromEMR;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAS4Tl0ZKT3EibG4+xSV3dNwAAAAACAAAAAAADZgAAwAAAABAAAABDWqGmxG9Gr5bm32erltfZAAAAAASAAACgAAAAEAAAANgXbdOnjNrfKuu4o0BHM1iIAAAAI38BuE5fEfpxOnh+96wB9rkhSZNDTIeYyf6PZqIaWSyyV+zBe+lDAZQ94e1pdIVmxI3AvP+AVLuW17OMk5W3KvVU1/LmlghJg6mrXunN9JbfXkrbeMr/zZpiH1Xm4rraf/Bm1clNjJUt9KUZ/4sTb1ZcQNYZglVbkRoh2f+T64V5CxeqkHtb6xQAAAC6+RrpO4QwJ+r7CTjV8gSGEp0MbQ==</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

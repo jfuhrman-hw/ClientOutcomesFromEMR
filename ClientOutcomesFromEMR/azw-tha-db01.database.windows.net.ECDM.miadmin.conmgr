@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="azw-tha-db01.database.windows.net.ECDM.miadmin"
+  DTS:DTSID="{1CA0463F-E8BB-432C-AC4B-C56E3CBB9C54}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=azw-tha-db01.database.windows.net;User ID=miadmin;Initial Catalog=ECDM;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA4Ee/700wq0m79N/R1r6nfgAAAAACAAAAAAADZgAAwAAAABAAAABzmyYb26zw5uD1FqXSBRm9AAAAAASAAACgAAAAEAAAAEUK6j6/4uECiJe1Ss7QpB+IAAAA0M8PJF0MT9QAYXqW+tgcrJ1xKEB6/0pkfUBj4Zt4yVSolhhq0DUYGIpqnO12BLeV3M2V1QhSUTTAeFjtPRvVtUaAWf/LvZjLhpVcVipNjBQOtPi+gIH4UwEoSmHelbSZ+BQE64ZE23OKvC97jlFjcpiotoY0NlBeSj3huNEIkhBUy6qm5tlq0hQAAADkMFvLf3tcTpNcGyC1sWQpil2JSw==</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

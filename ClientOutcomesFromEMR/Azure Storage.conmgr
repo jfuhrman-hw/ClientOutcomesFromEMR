@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:DelayValidation="True"
+  DTS:ObjectName="Azure Storage"
+  DTS:DTSID="{F3DAE546-8007-4FC3-9958-55BBF610B54D}"
+  DTS:CreationName="AzureStorage">
+  <DTS:ObjectData>
+    <AzureStorageConnectionManager
+      ConnectionString="AccountName=hwprodexternalshare;DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;"
+      ConnectByProxy="False">
+      <AccountKey
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAghYT738dQUq6DVLmZyirDAAAAAACAAAAAAADZgAAwAAAABAAAADfDqtNDkGeXDfHeyhjsg2kAAAAAASAAACgAAAAEAAAADNNlBiXEvCNwGZ4zH5z2yqAAAAAVpgtptahwUobzGouQz5YWL7vBiPc1GVm2i3lnxxOsjD+/6rjmNxSETEqSRknDSUohFq4ad6dU4BC1CbGtEn0HJUEJJjqAWV0hiugTeUJktZJV1kX4xepvt4Q3tV01WHEKYgFZJJR4reNMqi2Gd2cd/2QrzZB2GzTxhGe3rLwhvAUAAAAvlLXHJYJtGBAc6dN0i3SlmKAZ/E=</AccountKey>
+    </AzureStorageConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

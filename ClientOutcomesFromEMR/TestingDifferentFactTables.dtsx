@@ -1,0 +1,2190 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/27/2020 9:08:59 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AZW-PXX-JP12"
+  DTS:CreatorName="Prod\p-kchin"
+  DTS:DTSID="{721734E3-05B3-48F2-9930-651CA6109358}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1100.123"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="TestingDifferentFactTables"
+  DTS:PackageType="5"
+  DTS:VersionBuild="12"
+  DTS:VersionGUID="{54EFBAEC-A691-4F7F-A4CE-2AC35B9F88FC}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{D7A58818-4A8C-41DB-A69F-0E526A738DA2}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\dbo FactEncounterEvent"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="dbo FactEncounterEvent"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[FactEncounterEvent]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\dbo FactEncounterEvent.Connections[OleDbConnection]"
+                  connectionManagerID="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:invalid"
+                  connectionManagerRefId="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[EncounterKey]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[EncounterKey]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[EncounterKey]"
+                      name="EncounterKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[PatientKey]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[PatientKey]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[PatientKey]"
+                      name="PatientKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[DateKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[DateKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[DateKey]"
+                      name="DateKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ClientKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[ClientKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ClientKey]"
+                      name="ClientKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[EventTypeKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[EventTypeKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[EventTypeKey]"
+                      name="EventTypeKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[EncounterTypeKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[EncounterTypeKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[EncounterTypeKey]"
+                      name="EncounterTypeKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ServiceAreaKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[ServiceAreaKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ServiceAreaKey]"
+                      name="ServiceAreaKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[LocationKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[LocationKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[LocationKey]"
+                      name="LocationKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[DepartmentKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[DepartmentKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[DepartmentKey]"
+                      name="DepartmentKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[FinancialClassKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[FinancialClassKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[FinancialClassKey]"
+                      name="FinancialClassKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[DiagnosisCodeKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[DiagnosisCodeKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[DiagnosisCodeKey]"
+                      name="DiagnosisCodeKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ProcedureCodeKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[ProcedureCodeKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ProcedureCodeKey]"
+                      name="ProcedureCodeKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ContentKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[ContentKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ContentKey]"
+                      name="ContentKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[REF_DOC_SUGGES_DTTM]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[REF_DOC_SUGGES_DTTM]"
+                      name="REF_DOC_SUGGES_DTTM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[REF_DOC_PRINT_DTTM]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[REF_DOC_PRINT_DTTM]"
+                      name="REF_DOC_PRINT_DTTM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[AVS_PRINT_TM]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[AVS_PRINT_TM]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[AVS_PRINT_TM]"
+                      name="AVS_PRINT_TM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[REF_DOCS_ETX_DAT_FLAG]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[REF_DOCS_ETX_DAT_FLAG]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[REF_DOCS_ETX_DAT_FLAG]"
+                      name="REF_DOCS_ETX_DAT_FLAG"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[CodeOrder]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[CodeOrder]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[CodeOrder]"
+                      name="CodeOrder"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[CreatedDate]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[CreatedDate]"
+                      name="CreatedDate"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[EncounterKey]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="EncounterKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[PatientKey]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="PatientKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[DateKey]"
+                      dataType="i4"
+                      name="DateKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[ClientKey]"
+                      dataType="i4"
+                      name="ClientKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[EventTypeKey]"
+                      dataType="i4"
+                      name="EventTypeKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[EncounterTypeKey]"
+                      dataType="i4"
+                      name="EncounterTypeKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[ServiceAreaKey]"
+                      dataType="i4"
+                      name="ServiceAreaKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[LocationKey]"
+                      dataType="i4"
+                      name="LocationKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[DepartmentKey]"
+                      dataType="i4"
+                      name="DepartmentKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[FinancialClassKey]"
+                      dataType="i4"
+                      name="FinancialClassKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[DiagnosisCodeKey]"
+                      dataType="i4"
+                      name="DiagnosisCodeKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[ProcedureCodeKey]"
+                      dataType="i4"
+                      name="ProcedureCodeKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[ContentKey]"
+                      dataType="i4"
+                      name="ContentKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      dataType="dbTimeStamp"
+                      name="REF_DOC_SUGGES_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      dataType="dbTimeStamp"
+                      name="REF_DOC_PRINT_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[AVS_PRINT_TM]"
+                      dataType="dbTimeStamp"
+                      name="AVS_PRINT_TM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[REF_DOCS_ETX_DAT_FLAG]"
+                      dataType="i4"
+                      name="REF_DOCS_ETX_DAT_FLAG" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[CodeOrder]"
+                      dataType="i4"
+                      name="CodeOrder" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      name="CreatedDate" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[EncounterKey]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[EncounterKey]"
+                      name="EncounterKey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[PatientKey]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[PatientKey]"
+                      name="PatientKey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[DateKey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[DateKey]"
+                      name="DateKey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[ClientKey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[ClientKey]"
+                      name="ClientKey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[EventTypeKey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[EventTypeKey]"
+                      name="EventTypeKey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[EncounterTypeKey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[EncounterTypeKey]"
+                      name="EncounterTypeKey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[ServiceAreaKey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[ServiceAreaKey]"
+                      name="ServiceAreaKey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[LocationKey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[LocationKey]"
+                      name="LocationKey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[DepartmentKey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[DepartmentKey]"
+                      name="DepartmentKey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[FinancialClassKey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[FinancialClassKey]"
+                      name="FinancialClassKey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[DiagnosisCodeKey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[DiagnosisCodeKey]"
+                      name="DiagnosisCodeKey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[ProcedureCodeKey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[ProcedureCodeKey]"
+                      name="ProcedureCodeKey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[ContentKey]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[ContentKey]"
+                      name="ContentKey" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[REF_DOC_SUGGES_DTTM]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[REF_DOC_SUGGES_DTTM]"
+                      name="REF_DOC_SUGGES_DTTM" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[REF_DOC_PRINT_DTTM]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[REF_DOC_PRINT_DTTM]"
+                      name="REF_DOC_PRINT_DTTM" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[AVS_PRINT_TM]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[AVS_PRINT_TM]"
+                      name="AVS_PRINT_TM" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[REF_DOCS_ETX_DAT_FLAG]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[REF_DOCS_ETX_DAT_FLAG]"
+                      name="REF_DOCS_ETX_DAT_FLAG" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[CodeOrder]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[CodeOrder]"
+                      name="CodeOrder" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[CreatedDate]"
+                      name="CreatedDate" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="dbo FactEncounterEvent_DateClustered"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[FactEncounterEvent_DateClustered]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Connections[OleDbConnection]"
+                  connectionManagerID="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:invalid"
+                  connectionManagerRefId="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[EncounterKey]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="EncounterKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[EncounterKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[EncounterKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[PatientKey]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="PatientKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[PatientKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[PatientKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[DateKey]"
+                      cachedDataType="i4"
+                      cachedName="DateKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[DateKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[DateKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[ClientKey]"
+                      cachedDataType="i4"
+                      cachedName="ClientKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[ClientKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ClientKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[EventTypeKey]"
+                      cachedDataType="i4"
+                      cachedName="EventTypeKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[EventTypeKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[EventTypeKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[EncounterTypeKey]"
+                      cachedDataType="i4"
+                      cachedName="EncounterTypeKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[EncounterTypeKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[EncounterTypeKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[ServiceAreaKey]"
+                      cachedDataType="i4"
+                      cachedName="ServiceAreaKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[ServiceAreaKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ServiceAreaKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[LocationKey]"
+                      cachedDataType="i4"
+                      cachedName="LocationKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[LocationKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[LocationKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[DepartmentKey]"
+                      cachedDataType="i4"
+                      cachedName="DepartmentKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[DepartmentKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[DepartmentKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[FinancialClassKey]"
+                      cachedDataType="i4"
+                      cachedName="FinancialClassKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[FinancialClassKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[FinancialClassKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[DiagnosisCodeKey]"
+                      cachedDataType="i4"
+                      cachedName="DiagnosisCodeKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[DiagnosisCodeKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[DiagnosisCodeKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[ProcedureCodeKey]"
+                      cachedDataType="i4"
+                      cachedName="ProcedureCodeKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[ProcedureCodeKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ProcedureCodeKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[ContentKey]"
+                      cachedDataType="i4"
+                      cachedName="ContentKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[ContentKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ContentKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[REF_DOC_SUGGES_DTTM]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="REF_DOC_SUGGES_DTTM"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[REF_DOC_SUGGES_DTTM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[REF_DOC_PRINT_DTTM]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="REF_DOC_PRINT_DTTM"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[REF_DOC_PRINT_DTTM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[AVS_PRINT_TM]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="AVS_PRINT_TM"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[AVS_PRINT_TM]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[AVS_PRINT_TM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[REF_DOCS_ETX_DAT_FLAG]"
+                      cachedDataType="i4"
+                      cachedName="REF_DOCS_ETX_DAT_FLAG"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOCS_ETX_DAT_FLAG]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[REF_DOCS_ETX_DAT_FLAG]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[CodeOrder]"
+                      cachedDataType="i4"
+                      cachedName="CodeOrder"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[CodeOrder]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[CodeOrder]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].Columns[CreatedDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="CreatedDate"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[CreatedDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[DateKey]"
+                      dataType="i4"
+                      name="DateKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[EncounterKey]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="EncounterKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[PatientKey]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="PatientKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[ClientKey]"
+                      dataType="i4"
+                      name="ClientKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[EventTypeKey]"
+                      dataType="i4"
+                      name="EventTypeKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[EncounterTypeKey]"
+                      dataType="i4"
+                      name="EncounterTypeKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[ServiceAreaKey]"
+                      dataType="i4"
+                      name="ServiceAreaKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[LocationKey]"
+                      dataType="i4"
+                      name="LocationKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[DepartmentKey]"
+                      dataType="i4"
+                      name="DepartmentKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[FinancialClassKey]"
+                      dataType="i4"
+                      name="FinancialClassKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[DiagnosisCodeKey]"
+                      dataType="i4"
+                      name="DiagnosisCodeKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[ProcedureCodeKey]"
+                      dataType="i4"
+                      name="ProcedureCodeKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[ContentKey]"
+                      dataType="i4"
+                      name="ContentKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      dataType="dbTimeStamp"
+                      name="REF_DOC_SUGGES_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      dataType="dbTimeStamp"
+                      name="REF_DOC_PRINT_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[AVS_PRINT_TM]"
+                      dataType="dbTimeStamp"
+                      name="AVS_PRINT_TM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOCS_ETX_DAT_FLAG]"
+                      dataType="i4"
+                      name="REF_DOCS_ETX_DAT_FLAG" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[CodeOrder]"
+                      dataType="i4"
+                      name="CodeOrder" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      name="CreatedDate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="dbo FactEncounterEvent_UniqueIndex"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[FactEncounterEvent_UniqueIndex]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Connections[OleDbConnection]"
+                  connectionManagerID="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:invalid"
+                  connectionManagerRefId="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[EncounterKey]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="EncounterKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[EncounterKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[EncounterKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[PatientKey]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="PatientKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[PatientKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[PatientKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[DateKey]"
+                      cachedDataType="i4"
+                      cachedName="DateKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[DateKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[DateKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[ClientKey]"
+                      cachedDataType="i4"
+                      cachedName="ClientKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[ClientKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ClientKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[EventTypeKey]"
+                      cachedDataType="i4"
+                      cachedName="EventTypeKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[EventTypeKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[EventTypeKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[EncounterTypeKey]"
+                      cachedDataType="i4"
+                      cachedName="EncounterTypeKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[EncounterTypeKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[EncounterTypeKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[ServiceAreaKey]"
+                      cachedDataType="i4"
+                      cachedName="ServiceAreaKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[ServiceAreaKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ServiceAreaKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[LocationKey]"
+                      cachedDataType="i4"
+                      cachedName="LocationKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[LocationKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[LocationKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[DepartmentKey]"
+                      cachedDataType="i4"
+                      cachedName="DepartmentKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[DepartmentKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[DepartmentKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[FinancialClassKey]"
+                      cachedDataType="i4"
+                      cachedName="FinancialClassKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[FinancialClassKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[FinancialClassKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[DiagnosisCodeKey]"
+                      cachedDataType="i4"
+                      cachedName="DiagnosisCodeKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[DiagnosisCodeKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[DiagnosisCodeKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[ProcedureCodeKey]"
+                      cachedDataType="i4"
+                      cachedName="ProcedureCodeKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[ProcedureCodeKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ProcedureCodeKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[ContentKey]"
+                      cachedDataType="i4"
+                      cachedName="ContentKey"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[ContentKey]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[ContentKey]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[REF_DOC_SUGGES_DTTM]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="REF_DOC_SUGGES_DTTM"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[REF_DOC_SUGGES_DTTM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[REF_DOC_PRINT_DTTM]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="REF_DOC_PRINT_DTTM"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[REF_DOC_PRINT_DTTM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[AVS_PRINT_TM]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="AVS_PRINT_TM"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[AVS_PRINT_TM]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[AVS_PRINT_TM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[REF_DOCS_ETX_DAT_FLAG]"
+                      cachedDataType="i4"
+                      cachedName="REF_DOCS_ETX_DAT_FLAG"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOCS_ETX_DAT_FLAG]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[REF_DOCS_ETX_DAT_FLAG]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[CodeOrder]"
+                      cachedDataType="i4"
+                      cachedName="CodeOrder"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[CodeOrder]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[CodeOrder]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].Columns[CreatedDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="CreatedDate"
+                      externalMetadataColumnId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output].Columns[CreatedDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[EncounterKey]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="EncounterKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[PatientKey]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="PatientKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[DateKey]"
+                      dataType="i4"
+                      name="DateKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[ClientKey]"
+                      dataType="i4"
+                      name="ClientKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[EventTypeKey]"
+                      dataType="i4"
+                      name="EventTypeKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[EncounterTypeKey]"
+                      dataType="i4"
+                      name="EncounterTypeKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[ServiceAreaKey]"
+                      dataType="i4"
+                      name="ServiceAreaKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[LocationKey]"
+                      dataType="i4"
+                      name="LocationKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[DepartmentKey]"
+                      dataType="i4"
+                      name="DepartmentKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[FinancialClassKey]"
+                      dataType="i4"
+                      name="FinancialClassKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[DiagnosisCodeKey]"
+                      dataType="i4"
+                      name="DiagnosisCodeKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[ProcedureCodeKey]"
+                      dataType="i4"
+                      name="ProcedureCodeKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[ContentKey]"
+                      dataType="i4"
+                      name="ContentKey" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      dataType="dbTimeStamp"
+                      name="REF_DOC_SUGGES_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      dataType="dbTimeStamp"
+                      name="REF_DOC_PRINT_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[AVS_PRINT_TM]"
+                      dataType="dbTimeStamp"
+                      name="AVS_PRINT_TM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOCS_ETX_DAT_FLAG]"
+                      dataType="i4"
+                      name="REF_DOCS_ETX_DAT_FLAG" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[CodeOrder]"
+                      dataType="i4"
+                      name="CodeOrder" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      name="CreatedDate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Multicast"
+              componentClassID="Microsoft.Multicast"
+              contactInfo="Multicast;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Distributes every input row to every row in one or more outputs. For example, branch your data flow to make a copy of data so that some values can be masked before sharing with external partners."
+              name="Multicast">
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Multicast.Inputs[Multicast Input 1]"
+                  name="Multicast Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Multicast.Outputs[Multicast Output 1]"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 1"
+                  synchronousInputId="Package\Data Flow Task\Multicast.Inputs[Multicast Input 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Multicast.Outputs[Multicast Output 2]"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 2"
+                  synchronousInputId="Package\Data Flow Task\Multicast.Inputs[Multicast Input 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Multicast.Outputs[Multicast Output 3]"
+                  dangling="true"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 3"
+                  synchronousInputId="Package\Data Flow Task\Multicast.Inputs[Multicast Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[Multicast Output 1]"
+              endId="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered.Inputs[OLE DB Destination Input]"
+              name="Multicast Output 1"
+              startId="Package\Data Flow Task\Multicast.Outputs[Multicast Output 1]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Multicast Output 2]"
+              endId="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex.Inputs[OLE DB Destination Input]"
+              name="Multicast Output 2"
+              startId="Package\Data Flow Task\Multicast.Outputs[Multicast Output 2]" />
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\Multicast.Inputs[Multicast Input 1]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\dbo FactEncounterEvent.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\DateClustered to dbo"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{362AE577-B1C4-4A3A-A589-75F6D78623EE}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DateClustered to dbo"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DateClustered to dbo\FactEncounterEvent"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="FactEncounterEvent"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[FactEncounterEvent]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DateClustered to dbo\FactEncounterEvent.Connections[OleDbConnection]"
+                  connectionManagerID="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:invalid"
+                  connectionManagerRefId="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[DateKey]"
+                      cachedDataType="i4"
+                      cachedName="DateKey"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[DateKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[DateKey]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[EncounterKey]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="EncounterKey"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[EncounterKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[EncounterKey]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[PatientKey]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="PatientKey"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[PatientKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[PatientKey]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[ClientKey]"
+                      cachedDataType="i4"
+                      cachedName="ClientKey"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[ClientKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[ClientKey]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[EventTypeKey]"
+                      cachedDataType="i4"
+                      cachedName="EventTypeKey"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[EventTypeKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[EventTypeKey]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[EncounterTypeKey]"
+                      cachedDataType="i4"
+                      cachedName="EncounterTypeKey"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[EncounterTypeKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[EncounterTypeKey]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[ServiceAreaKey]"
+                      cachedDataType="i4"
+                      cachedName="ServiceAreaKey"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[ServiceAreaKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[ServiceAreaKey]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[LocationKey]"
+                      cachedDataType="i4"
+                      cachedName="LocationKey"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[LocationKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[LocationKey]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[DepartmentKey]"
+                      cachedDataType="i4"
+                      cachedName="DepartmentKey"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[DepartmentKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[DepartmentKey]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[FinancialClassKey]"
+                      cachedDataType="i4"
+                      cachedName="FinancialClassKey"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[FinancialClassKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[FinancialClassKey]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[DiagnosisCodeKey]"
+                      cachedDataType="i4"
+                      cachedName="DiagnosisCodeKey"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[DiagnosisCodeKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[DiagnosisCodeKey]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[ProcedureCodeKey]"
+                      cachedDataType="i4"
+                      cachedName="ProcedureCodeKey"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[ProcedureCodeKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[ProcedureCodeKey]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[ContentKey]"
+                      cachedDataType="i4"
+                      cachedName="ContentKey"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[ContentKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[ContentKey]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[REF_DOC_SUGGES_DTTM]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="REF_DOC_SUGGES_DTTM"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[REF_DOC_SUGGES_DTTM]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[REF_DOC_PRINT_DTTM]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="REF_DOC_PRINT_DTTM"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[REF_DOC_PRINT_DTTM]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[AVS_PRINT_TM]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="AVS_PRINT_TM"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[AVS_PRINT_TM]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[AVS_PRINT_TM]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[REF_DOCS_ETX_DAT_FLAG]"
+                      cachedDataType="i4"
+                      cachedName="REF_DOCS_ETX_DAT_FLAG"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOCS_ETX_DAT_FLAG]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[REF_DOCS_ETX_DAT_FLAG]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[CodeOrder]"
+                      cachedDataType="i4"
+                      cachedName="CodeOrder"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[CodeOrder]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[CodeOrder]" />
+                    <inputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].Columns[CreatedDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="CreatedDate"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[CreatedDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[DateKey]"
+                      dataType="i4"
+                      name="DateKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[EncounterKey]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="EncounterKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[PatientKey]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="PatientKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[ClientKey]"
+                      dataType="i4"
+                      name="ClientKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[EventTypeKey]"
+                      dataType="i4"
+                      name="EventTypeKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[EncounterTypeKey]"
+                      dataType="i4"
+                      name="EncounterTypeKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[ServiceAreaKey]"
+                      dataType="i4"
+                      name="ServiceAreaKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[LocationKey]"
+                      dataType="i4"
+                      name="LocationKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[DepartmentKey]"
+                      dataType="i4"
+                      name="DepartmentKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[FinancialClassKey]"
+                      dataType="i4"
+                      name="FinancialClassKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[DiagnosisCodeKey]"
+                      dataType="i4"
+                      name="DiagnosisCodeKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[ProcedureCodeKey]"
+                      dataType="i4"
+                      name="ProcedureCodeKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[ContentKey]"
+                      dataType="i4"
+                      name="ContentKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      dataType="dbTimeStamp"
+                      name="REF_DOC_SUGGES_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      dataType="dbTimeStamp"
+                      name="REF_DOC_PRINT_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[AVS_PRINT_TM]"
+                      dataType="dbTimeStamp"
+                      name="AVS_PRINT_TM" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[REF_DOCS_ETX_DAT_FLAG]"
+                      dataType="i4"
+                      name="REF_DOCS_ETX_DAT_FLAG" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[CodeOrder]"
+                      dataType="i4"
+                      name="CodeOrder" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      name="CreatedDate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DateClustered to dbo\FactEncounterEvent.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="FactEncounterEvent_DateClustered"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[FactEncounterEvent_DateClustered]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Connections[OleDbConnection]"
+                  connectionManagerID="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:invalid"
+                  connectionManagerRefId="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:invalid"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[DateKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[DateKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[DateKey]"
+                      name="DateKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[EncounterKey]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[EncounterKey]"
+                      length="50"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[EncounterKey]"
+                      name="EncounterKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[PatientKey]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[PatientKey]"
+                      length="50"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[PatientKey]"
+                      name="PatientKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[ClientKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[ClientKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[ClientKey]"
+                      name="ClientKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[EventTypeKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[EventTypeKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[EventTypeKey]"
+                      name="EventTypeKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[EncounterTypeKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[EncounterTypeKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[EncounterTypeKey]"
+                      name="EncounterTypeKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[ServiceAreaKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[ServiceAreaKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[ServiceAreaKey]"
+                      name="ServiceAreaKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[LocationKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[LocationKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[LocationKey]"
+                      name="LocationKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[DepartmentKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[DepartmentKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[DepartmentKey]"
+                      name="DepartmentKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[FinancialClassKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[FinancialClassKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[FinancialClassKey]"
+                      name="FinancialClassKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[DiagnosisCodeKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[DiagnosisCodeKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[DiagnosisCodeKey]"
+                      name="DiagnosisCodeKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[ProcedureCodeKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[ProcedureCodeKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[ProcedureCodeKey]"
+                      name="ProcedureCodeKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[ContentKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[ContentKey]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[ContentKey]"
+                      name="ContentKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[REF_DOC_SUGGES_DTTM]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[REF_DOC_SUGGES_DTTM]"
+                      name="REF_DOC_SUGGES_DTTM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[REF_DOC_PRINT_DTTM]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[REF_DOC_PRINT_DTTM]"
+                      name="REF_DOC_PRINT_DTTM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[AVS_PRINT_TM]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[AVS_PRINT_TM]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[AVS_PRINT_TM]"
+                      name="AVS_PRINT_TM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[REF_DOCS_ETX_DAT_FLAG]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[REF_DOCS_ETX_DAT_FLAG]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[REF_DOCS_ETX_DAT_FLAG]"
+                      name="REF_DOCS_ETX_DAT_FLAG"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[CodeOrder]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[CodeOrder]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[CodeOrder]"
+                      name="CodeOrder"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[CreatedDate]"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].Columns[CreatedDate]"
+                      name="CreatedDate"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[DateKey]"
+                      dataType="i4"
+                      name="DateKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[EncounterKey]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="EncounterKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[PatientKey]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="PatientKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[ClientKey]"
+                      dataType="i4"
+                      name="ClientKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[EventTypeKey]"
+                      dataType="i4"
+                      name="EventTypeKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[EncounterTypeKey]"
+                      dataType="i4"
+                      name="EncounterTypeKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[ServiceAreaKey]"
+                      dataType="i4"
+                      name="ServiceAreaKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[LocationKey]"
+                      dataType="i4"
+                      name="LocationKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[DepartmentKey]"
+                      dataType="i4"
+                      name="DepartmentKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[FinancialClassKey]"
+                      dataType="i4"
+                      name="FinancialClassKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[DiagnosisCodeKey]"
+                      dataType="i4"
+                      name="DiagnosisCodeKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[ProcedureCodeKey]"
+                      dataType="i4"
+                      name="ProcedureCodeKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[ContentKey]"
+                      dataType="i4"
+                      name="ContentKey" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[REF_DOC_SUGGES_DTTM]"
+                      dataType="dbTimeStamp"
+                      name="REF_DOC_SUGGES_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[REF_DOC_PRINT_DTTM]"
+                      dataType="dbTimeStamp"
+                      name="REF_DOC_PRINT_DTTM" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[AVS_PRINT_TM]"
+                      dataType="dbTimeStamp"
+                      name="AVS_PRINT_TM" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[REF_DOCS_ETX_DAT_FLAG]"
+                      dataType="i4"
+                      name="REF_DOCS_ETX_DAT_FLAG" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[CodeOrder]"
+                      dataType="i4"
+                      name="CodeOrder" />
+                    <externalMetadataColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      name="CreatedDate" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[DateKey]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[DateKey]"
+                      name="DateKey" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[EncounterKey]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[EncounterKey]"
+                      name="EncounterKey" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[PatientKey]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[PatientKey]"
+                      name="PatientKey" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[ClientKey]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[ClientKey]"
+                      name="ClientKey" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[EventTypeKey]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[EventTypeKey]"
+                      name="EventTypeKey" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[EncounterTypeKey]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[EncounterTypeKey]"
+                      name="EncounterTypeKey" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[ServiceAreaKey]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[ServiceAreaKey]"
+                      name="ServiceAreaKey" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[LocationKey]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[LocationKey]"
+                      name="LocationKey" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[DepartmentKey]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[DepartmentKey]"
+                      name="DepartmentKey" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[FinancialClassKey]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[FinancialClassKey]"
+                      name="FinancialClassKey" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[DiagnosisCodeKey]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[DiagnosisCodeKey]"
+                      name="DiagnosisCodeKey" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[ProcedureCodeKey]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[ProcedureCodeKey]"
+                      name="ProcedureCodeKey" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[ContentKey]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[ContentKey]"
+                      name="ContentKey" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[REF_DOC_SUGGES_DTTM]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[REF_DOC_SUGGES_DTTM]"
+                      name="REF_DOC_SUGGES_DTTM" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[REF_DOC_PRINT_DTTM]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[REF_DOC_PRINT_DTTM]"
+                      name="REF_DOC_PRINT_DTTM" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[AVS_PRINT_TM]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[AVS_PRINT_TM]"
+                      name="AVS_PRINT_TM" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[REF_DOCS_ETX_DAT_FLAG]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[REF_DOCS_ETX_DAT_FLAG]"
+                      name="REF_DOCS_ETX_DAT_FLAG" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[CodeOrder]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[CodeOrder]"
+                      name="CodeOrder" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[CreatedDate]"
+                      name="CreatedDate" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DateClustered to dbo.Paths[OLE DB Source Output]"
+              endId="Package\DateClustered to dbo\FactEncounterEvent.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\DateClustered to dbo\FactEncounterEvent_DateClustered.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge Stg into FactEncounterEvent_DateClustered"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{4A1BE0E8-CA9A-4478-9E3D-2E4086740E87}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Stg into FactEncounterEvent_DateClustered"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="INSERT INTO [dbo].[FactEncounterEvent_DateClustered] &#xA;(&#xA; [DateKey]&#xA;,[EncounterKey]&#xA;,[PatientKey]&#xA;,[ClientKey]&#xA;,[EventTypeKey]&#xA;,[EncounterTypeKey]&#xA;,[ServiceAreaKey]&#xA;,[LocationKey]&#xA;,[DepartmentKey]&#xA;,[FinancialClassKey]&#xA;,[DiagnosisCodeKey]&#xA;,[ProcedureCodeKey]&#xA;,[ContentKey]&#xA;,[REF_DOC_SUGGES_DTTM]&#xA;,[REF_DOC_PRINT_DTTM]&#xA;,[AVS_PRINT_TM]&#xA;,[REF_DOCS_ETX_DAT_FLAG]&#xA;,[CodeOrder]&#xA;,[CreatedDate]&#xA;)&#xA;SELECT&#xA; StgSrc.[DateKey]&#xA;,StgSrc.[EncounterKey]&#xA;,StgSrc.[PatientKey]&#xA;,StgSrc.[ClientKey]&#xA;,StgSrc.[EventTypeKey]&#xA;,StgSrc.[EncounterTypeKey]&#xA;,StgSrc.[ServiceAreaKey]&#xA;,StgSrc.[LocationKey]&#xA;,StgSrc.[DepartmentKey]&#xA;,StgSrc.[FinancialClassKey]&#xA;,StgSrc.[DiagnosisCodeKey]&#xA;,StgSrc.[ProcedureCodeKey]&#xA;,StgSrc.[ContentKey]&#xA;,StgSrc.[REF_DOC_SUGGES_DTTM]&#xA;,StgSrc.[REF_DOC_PRINT_DTTM]&#xA;,StgSrc.[AVS_PRINT_TM]&#xA;,StgSrc.[REF_DOCS_ETX_DAT_FLAG]&#xA;,StgSrc.[CodeOrder]&#xA;,StgSrc.[CreatedDate]&#xA;FROM [Stg].[FactEncounterEvent] as StgSrc &#xA;LEFT JOIN [dbo].[FactEncounterEvent_DateClustered] as DboDst &#xA;&#x9; ON StgSrc.DateKey = DboDst.DateKey&#xA;&#x9;AND StgSrc.EncounterKey = DboDst.EncounterKey&#xA;&#x9;AND StgSrc.PatientKey = DboDst.PatientKey&#xA;&#x9;AND StgSrc.ClientKey = DboDst.ClientKey&#xA;&#x9;AND StgSrc.DiagnosisCodeKey = DboDst.DiagnosisCodeKey&#xA;&#x9;AND StgSrc.ProcedureCodeKey = DboDst.ProcedureCodeKey&#xA;&#x9;AND StgSrc.ContentKey = DboDst.ContentKey&#xA;&#x9;AND StgSrc.CodeOrder = DboDst.CodeOrder&#xA;WHERE DboDst.EncounterKey IS NULL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge Stg into FactEncounterEvent_UniqueIndex"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{6D78051E-7AC7-4857-BF33-75BCA26A2B7B}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Stg into FactEncounterEvent_UniqueIndex"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="INSERT INTO [dbo].[FactEncounterEvent_UniqueIndex] &#xA;(&#xA; [EncounterKey]&#xA;,[PatientKey]&#xA;,[DateKey]&#xA;,[ClientKey]&#xA;,[EventTypeKey]&#xA;,[EncounterTypeKey]&#xA;,[ServiceAreaKey]&#xA;,[LocationKey]&#xA;,[DepartmentKey]&#xA;,[FinancialClassKey]&#xA;,[DiagnosisCodeKey]&#xA;,[ProcedureCodeKey]&#xA;,[ContentKey]&#xA;,[REF_DOC_SUGGES_DTTM]&#xA;,[REF_DOC_PRINT_DTTM]&#xA;,[AVS_PRINT_TM]&#xA;,[REF_DOCS_ETX_DAT_FLAG]&#xA;,[CodeOrder]&#xA;,[CreatedDate]&#xA;)&#xA;SELECT&#xA; StgSrc.[EncounterKey]&#xA;,StgSrc.[PatientKey]&#xA;,StgSrc.[DateKey]&#xA;,StgSrc.[ClientKey]&#xA;,StgSrc.[EventTypeKey]&#xA;,StgSrc.[EncounterTypeKey]&#xA;,StgSrc.[ServiceAreaKey]&#xA;,StgSrc.[LocationKey]&#xA;,StgSrc.[DepartmentKey]&#xA;,StgSrc.[FinancialClassKey]&#xA;,StgSrc.[DiagnosisCodeKey]&#xA;,StgSrc.[ProcedureCodeKey]&#xA;,StgSrc.[ContentKey]&#xA;,StgSrc.[REF_DOC_SUGGES_DTTM]&#xA;,StgSrc.[REF_DOC_PRINT_DTTM]&#xA;,StgSrc.[AVS_PRINT_TM]&#xA;,StgSrc.[REF_DOCS_ETX_DAT_FLAG]&#xA;,StgSrc.[CodeOrder]&#xA;,StgSrc.[CreatedDate]&#xA;FROM [Stg].[FactEncounterEvent] as StgSrc &#xA;LEFT JOIN [dbo].[FactEncounterEvent_UniqueIndex] as DboDst &#xA;&#x9; ON StgSrc.EncounterKey = DboDst.EncounterKey&#xA;&#x9;AND StgSrc.PatientKey = DboDst.PatientKey&#xA;&#x9;AND StgSrc.ClientKey = DboDst.ClientKey&#xA;&#x9;AND StgSrc.DiagnosisCodeKey = DboDst.DiagnosisCodeKey&#xA;&#x9;AND StgSrc.ProcedureCodeKey = DboDst.ProcedureCodeKey&#xA;&#x9;AND StgSrc.ContentKey = DboDst.ContentKey&#xA;&#x9;AND StgSrc.CodeOrder = DboDst.CodeOrder&#xA;WHERE DboDst.EncounterKey IS NULL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="151,42"
+          Id="Package\Data Flow Task"
+          TopLeft="242,92" />
+        <NodeLayout
+          Size="317,42"
+          Id="Package\Merge Stg into FactEncounterEvent_DateClustered"
+          TopLeft="77,215" />
+        <NodeLayout
+          Size="310,42"
+          Id="Package\Merge Stg into FactEncounterEvent_UniqueIndex"
+          TopLeft="494,216" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\DateClustered to dbo"
+          TopLeft="200,334" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="194,42"
+          Id="Package\Data Flow Task\dbo FactEncounterEvent"
+          TopLeft="364,5.5" />
+        <NodeLayout
+          Size="120,42"
+          Id="Package\Data Flow Task\Multicast"
+          TopLeft="401,107.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="461,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="265,42"
+          Id="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered"
+          TopLeft="184.5,203.5" />
+        <NodeLayout
+          Size="259,42"
+          Id="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex"
+          TopLeft="471.5,203.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Multicast Output 1]"
+          TopLeft="442.333333333333,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-125.333333333333,54"
+              Start="0,0"
+              End="-125.333333333333,46.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.0263157894737" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.0263157894737"
+                    Point2="0,22.0263157894737"
+                    Point3="-4,22.0263157894737" />
+                  <mssgle:LineSegment
+                    End="-121.333333333333,22.0263157894737" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-121.333333333333,22.0263157894737"
+                    Point2="-125.333333333333,22.0263157894737"
+                    Point3="-125.333333333333,26.0263157894737" />
+                  <mssgle:LineSegment
+                    End="-125.333333333333,46.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Multicast Output 2]"
+          TopLeft="479.666666666667,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="121.333333333333,54"
+              Start="0,0"
+              End="121.333333333333,46.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.0263157894737" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.0263157894737"
+                    Point2="0,22.0263157894737"
+                    Point3="4,22.0263157894737" />
+                  <mssgle:LineSegment
+                    End="117.333333333333,22.0263157894737" />
+                  <mssgle:CubicBezierSegment
+                    Point1="117.333333333333,22.0263157894737"
+                    Point2="121.333333333333,22.0263157894737"
+                    Point3="121.333333333333,26.0263157894737" />
+                  <mssgle:LineSegment
+                    End="121.333333333333,46.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\dbo FactEncounterEvent_DateClustered">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\dbo FactEncounterEvent_UniqueIndex">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\dbo FactEncounterEvent">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\DateClustered to dbo">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="245,42"
+          Id="Package\DateClustered to dbo\FactEncounterEvent_DateClustered"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\DateClustered to dbo\FactEncounterEvent"
+          TopLeft="41.5,107.5" />
+        <EdgeLayout
+          Id="Package\DateClustered to dbo.Paths[OLE DB Source Output]"
+          TopLeft="128,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DateClustered to dbo\FactEncounterEvent_DateClustered">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DateClustered to dbo\FactEncounterEvent">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

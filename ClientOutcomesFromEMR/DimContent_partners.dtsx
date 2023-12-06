@@ -1,0 +1,776 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/15/2019 3:53:25 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AZW-PXX-JP12"
+  DTS:CreatorName="Prod\p-kchin"
+  DTS:DTSID="{CAD5BD1B-E5C8-40E3-9911-015E126CD49F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.170"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="DimContent_partners"
+  DTS:PackageType="5"
+  DTS:VersionBuild="26"
+  DTS:VersionGUID="{4E584945-FB2D-43F2-89F6-CDAAC83A85F1}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Check for missing Titles"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{577EA39D-209D-4F23-A44B-FF7A45E35A28}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Check for missing Titles"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="&#xA;  select &#xA;  [ContentKey],&#xA;  [ContentTitle],&#xA;  Case &#xA;    when Language = 'ENGLISH' &#xA;&#x9;  then left([ContentTitle],LEN(ContentTItle)-9)&#xA;   when Language = 'SPANISH' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-9)&#xA;   when Language = 'ARABIC' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-8)&#xA;   when Language = 'PORTUGUESE' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-12)&#xA;   when Language = 'BOSNIAN' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-9)&#xA;   when Language = 'RUSSIAN' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-9)&#xA;   when Language = 'KOREAN' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-8)&#xA;   when Language = 'FRENCH' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-8)&#xA;   when Language = 'BENGALI' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-9)&#xA;   when Language = 'PERSIAN' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-9)&#xA;   when Language = 'POLISH' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-8)&#xA;   when Language = 'VIETNAMESE' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-12)&#xA;   when Language = 'CHINESE-MANDARIN' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-18)&#xA;   when Language = 'CREOLE-HAITIAN' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-16)&#xA;   when Language = 'AFRICAN-SOMALI' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-16)&#xA;   when Language = 'NEPALI' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-8)&#xA;   when Language = 'KHMER' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-7)&#xA;   when Language = 'TAGALOG' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-9)&#xA;   when Language = 'CHINESE' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-9)&#xA;   when Language = 'SPICE USE HPI' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-15)&#xA;   when Language = 'SOMALI' &#xA;&#x9; then left([ContentTitle],LEN(ContentTItle)-8)&#xA;   &#xA;   when Language = 'Unknown' &#xA;&#x9; then  [ContentTitle]&#xA; end&#x9; &#xA;  as COntentcleaned,&#xA;  Language&#xA;  ,[ContentTitle_Cleaned]&#xA;      ,[ContentTitle_NoParens]&#xA;      ,[Hwid]&#xA;&#x9;  into #NullContentCleanedTitles&#xA;  FROM [dbo].[DimContent]&#xA;  where ContentTitle_Cleaned is null&#xA;  and ContentTitle is not null&#xA;  ;&#xA;&#xA;&#xA;  Update [dbo].[DimContent]&#xA;   set ContentTitle_Cleaned = temp.COntentcleaned&#xA;   FROM [dbo].[DimContent] dim&#xA;     join #NullContentCleanedTitles temp&#xA;&#x9; on dim.ContentKey = temp.ContentKey&#xA;  where dim.ContentTitle_Cleaned is null&#xA;  and dim.ContentTitle is not null&#xA;  ;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\DFT Load DimContent"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{23C12F9B-B349-4A75-8623-E734575A5DE9}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DFT Load DimContent"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\DFT Load DimContent\lkp Existing"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="lkp Existing"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [dbo].[DimContent]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [dbo].[DimContent]) [refTable]
+where [refTable].[ContentTitle] = ? and [refTable].[Language] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ContentKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ContentTitle" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Language" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ThirdPartySource" dataType="DT_STR" length="100" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="CreatedDate" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ContentTitle_Cleaned" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ContentTitle_NoParens" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Hwid" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[ContentTitle]};#{Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[Language]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load DimContent\lkp Existing.Connections[OleDbConnection]"
+                  connectionManagerID="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ClientOutcomesFromEMR]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Load DimContent\lkp Existing.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load DimContent\lkp Existing.Inputs[Lookup Input].Columns[ContentTitle]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="ContentTitle"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[ContentTitle]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">ContentTitle</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\DFT Load DimContent\lkp Existing.Inputs[Lookup Input].Columns[Language]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="Language"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[Language]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Language</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load DimContent\lkp Existing.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\DFT Load DimContent\lkp Existing.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load DimContent\lkp Existing.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\DFT Load DimContent\lkp Existing.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\DFT Load DimContent\lkp Existing.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\DFT Load DimContent\lkp Existing.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load DimContent\lkp Existing.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load DimContent\lkp Existing.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load DimContent\lkp Existing.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load DimContent\lkp Existing.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load DimContent\ole dst DimContent"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ole dst DimContent"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[DimContent]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load DimContent\ole dst DimContent.Connections[OleDbConnection]"
+                  connectionManagerID="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ClientOutcomesFromEMR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].Columns[ContentTitle]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="ContentTitle"
+                      externalMetadataColumnId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].ExternalColumns[ContentTitle]"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[ContentTitle]" />
+                    <inputColumn
+                      refId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].Columns[Language]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="Language"
+                      externalMetadataColumnId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[Language]" />
+                    <inputColumn
+                      refId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].Columns[ThirdPartySource]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="ThirdPartySource"
+                      externalMetadataColumnId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].ExternalColumns[ThirdPartySource]"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[ThirdPartySource]" />
+                    <inputColumn
+                      refId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].Columns[CreatedDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="CreatedDate"
+                      externalMetadataColumnId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[CreatedDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].ExternalColumns[ContentKey]"
+                      dataType="i4"
+                      name="ContentKey" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].ExternalColumns[ContentTitle]"
+                      dataType="wstr"
+                      length="200"
+                      name="ContentTitle" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      dataType="wstr"
+                      length="100"
+                      name="Language" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].ExternalColumns[ThirdPartySource]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="ThirdPartySource" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      name="CreatedDate" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].ExternalColumns[ContentTitle_Cleaned]"
+                      dataType="wstr"
+                      length="200"
+                      name="ContentTitle_Cleaned" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].ExternalColumns[ContentTitle_NoParens]"
+                      dataType="wstr"
+                      length="200"
+                      name="ContentTitle_NoParens" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input].ExternalColumns[Hwid]"
+                      dataType="wstr"
+                      length="50"
+                      name="Hwid" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\DFT Load DimContent\ole dst DimContent.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load DimContent\ole dst DimContent.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load DimContent\ole dst DimContent.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load DimContent\ole dst DimContent.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load DimContent\ole dst DimContent.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\DFT Load DimContent\ole src StgContentDistribution"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="ole src StgContentDistribution"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT DISTINCT
+ [SMARTTEXT_NAME] as ContentTitle
+,COALESCE(NULLIF(CASE WHEN SMARTTEXT_NAME like '%(ELIQUIS)%' THEN 'ENGLISH' 
+	  WHEN SMARTTEXT_NAME like '%(ENOXAPARIN) PT ED%' THEN 'ENGLISH'
+	  WHEN SMARTTEXT_NAME like '%(BABY FRIENDLY)%' THEN 'ENGLISH'
+	  WHEN SMARTTEXT_NAME like '%(BASE%)' THEN 'ENGLISH'
+	  WHEN SMARTTEXT_NAME like '%(LESS THAN ONE)%' THEN 'ENGLISH'
+	  WHEN SMARTTEXT_NAME like '%(MEANINGFUL USE)%' THEN 'ENGLISH'
+	  WHEN SMARTTEXT_NAME like '%(PEDI)%' THEN 'ENGLISH'
+	  WHEN SMARTTEXT_NAME like '%(PLANNING)%' THEN 'ENGLISH'
+	  WHEN SMARTTEXT_NAME like '(RETIRED AND UNRELEASED%' THEN 'ENGLISH'
+	  WHEN SMARTTEXT_NAME like '%(SHORT)%' THEN 'ENGLISH'
+	  WHEN SMARTTEXT_NAME like '%(VAGINAL)%' THEN 'ENGLISH'
+	  WHEN SMARTTEXT_NAME like '%(VAGINAL AND C-SECTION DELIVERIES)%' THEN 'ENGLISH'
+	  WHEN SMARTTEXT_NAME like '%(HIDE)%' THEN 'ENGLISH'
+	  WHEN SMARTTEXT_NAME like '%(HYPONATREMIA)%' THEN 'ENGLISH'
+	  WHEN SMARTTEXT_NAME like '%_ENGLISH' THEN 'ENGLISH'
+	  WHEN SMARTTEXT_NAME like '%_SPANISH' THEN 'SPANISH'
+	  WHEN SMARTTEXT_NAME like '%_PORTUGEUSE' THEN 'PORTUGEUSE'
+      ELSE REPLACE(REPLACE(RIGHT(smarttext_name, CHARINDEX('(', REVERSE(smarttext_name))) ,')', ''),'(','') END,''),'Unknown') AS Language	  
+,COALESCE(NULLIF([THIRD_PARTY_SOURCE],''),'Unknown') as ThirdPartySource
+,[CreatedDate]
+FROM [Stg].[ContentDistribution]
+
+UNION
+
+SELECT
+ 'N/A' as ContentTitle
+,'N/A' as [Language]
+,'N/A' as ThirdPartySource
+,getdate() as [CreatedDate]</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\DFT Load DimContent\ole src StgContentDistribution.Connections[OleDbConnection]"
+                  connectionManagerID="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ClientOutcomesFromEMR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[ContentTitle]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].ExternalColumns[ContentTitle]"
+                      length="200"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[ContentTitle]"
+                      name="ContentTitle"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[Language]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].ExternalColumns[Language]"
+                      length="4000"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[Language]"
+                      name="Language"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[ThirdPartySource]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].ExternalColumns[ThirdPartySource]"
+                      length="50"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[ThirdPartySource]"
+                      name="ThirdPartySource"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].ExternalColumns[CreatedDate]"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].Columns[CreatedDate]"
+                      name="CreatedDate"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].ExternalColumns[ContentTitle]"
+                      dataType="wstr"
+                      length="200"
+                      name="ContentTitle" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].ExternalColumns[Language]"
+                      dataType="wstr"
+                      length="4000"
+                      name="Language" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].ExternalColumns[ThirdPartySource]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="ThirdPartySource" />
+                    <externalMetadataColumn
+                      refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      name="CreatedDate" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Error Output].Columns[ContentTitle]"
+                      dataType="wstr"
+                      length="200"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Error Output].Columns[ContentTitle]"
+                      name="ContentTitle" />
+                    <outputColumn
+                      refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Error Output].Columns[Language]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Error Output].Columns[Language]"
+                      name="Language" />
+                    <outputColumn
+                      refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Error Output].Columns[ThirdPartySource]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Error Output].Columns[ThirdPartySource]"
+                      name="ThirdPartySource" />
+                    <outputColumn
+                      refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Error Output].Columns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Error Output].Columns[CreatedDate]"
+                      name="CreatedDate" />
+                    <outputColumn
+                      refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\DFT Load DimContent.Paths[Lookup No Match Output]"
+              endId="Package\DFT Load DimContent\ole dst DimContent.Inputs[OLE DB Destination Input]"
+              name="Lookup No Match Output"
+              startId="Package\DFT Load DimContent\lkp Existing.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\DFT Load DimContent.Paths[OLE DB Source Output]"
+              endId="Package\DFT Load DimContent\lkp Existing.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\DFT Load DimContent\ole src StgContentDistribution.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{BCE57807-F740-4F6E-9C43-8B5004C51237}"
+      DTS:From="Package\DFT Load DimContent"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Check for missing Titles" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="190,42"
+          Id="Package\Check for missing Titles"
+          TopLeft="21,108" />
+        <NodeLayout
+          Size="183,42"
+          Id="Package\DFT Load DimContent"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="97,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="19,60.5"
+              Start="0,0"
+              End="19,53">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.25"
+                    Point2="0,30.25"
+                    Point3="4,30.25" />
+                  <mssgle:LineSegment
+                    End="15,30.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="15,30.25"
+                    Point2="19,30.25"
+                    Point3="19,34.25" />
+                  <mssgle:LineSegment
+                    End="19,53" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\DFT Load DimContent">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="169,42"
+          Id="Package\DFT Load DimContent\ole dst DimContent"
+          TopLeft="30.5,209.5" />
+        <NodeLayout
+          Size="132,42"
+          Id="Package\DFT Load DimContent\lkp Existing"
+          TopLeft="49,107.5" />
+        <NodeLayout
+          Size="219,42"
+          Id="Package\DFT Load DimContent\ole src StgContentDistribution"
+          TopLeft="5.50000000000001,5.5" />
+        <EdgeLayout
+          Id="Package\DFT Load DimContent.Paths[OLE DB Source Output]"
+          TopLeft="115,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\DFT Load DimContent.Paths[Lookup No Match Output]"
+          TopLeft="115,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-55.80638671875,20.4453125,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Load DimContent\ole dst DimContent">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Load DimContent\lkp Existing">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[DimContent]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\DFT Load DimContent\ole src StgContentDistribution">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

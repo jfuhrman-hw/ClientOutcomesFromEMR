@@ -1,0 +1,1651 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/31/2019 3:33:39 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AZW-PXX-JP12"
+  DTS:CreatorName="Prod\p-kchin"
+  DTS:DTSID="{846AE6D4-D25B-4ABA-84BB-31CA149F8637}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.170"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="StgProcedures"
+  DTS:PackageType="5"
+  DTS:VersionBuild="98"
+  DTS:VersionGUID="{0FB62851-F59B-4755-A9DE-DC89B36947D1}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Delete file"
+      DTS:CreationName="ExtensibleFileTask"
+      DTS:Description="Flexible File Task"
+      DTS:DTSID="{8EDDBD4A-D6FB-406E-82E5-2D2A71100D4E}"
+      DTS:ExecutableType="ExtensibleFileTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Delete file"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="FolderPath">"epicpi/Staging/"+ @[$Project::UrlAlias]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <ExtensibleFileTask
+          Operation="Delete"
+          SourceConnectionType="LocalFileSystem"
+          SearchRecursively="False"
+          DestinationConnectionType="LocalFileSystem"
+          ConnectionType="AzureStorage"
+          ConnectionId="{F3DAE546-8007-4FC3-9958-55BBF610B54D}"
+          FolderPath="epicpi/Staging/well434"
+          FileName="*Procedures*"
+          DeleteRecursively="False" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\dft Stage Procedures"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{7BBDD159-8D1E-4E4D-A054-47F77C88168D}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="dft Stage Procedures"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="[Azure Blob Source].[Blob Name]">"Staging/"+ @[$Project::UrlAlias]+"/Procedures"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\dft Stage Procedures\Azure Blob Source"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="© Microsoft Corporation; All Rights Reserved;"
+              description="Extracts data from a blob in Azure Storage. The supported file formats are: Text and Avro. To work with Azure Data Lake Storage Gen2, use Flexible File Source with Azure Storage Connection Manager instead."
+              name="Azure Blob Source"
+              usesDispositions="true"
+              validateExternalMetadata="False">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The name of blob container"
+                  expressionType="Notify"
+                  name="Blob Container">epicpi</property>
+                <property
+                  dataType="System.String"
+                  description="The full name of blob"
+                  expressionType="Notify"
+                  name="Blob Name">Staging/well434/Procedures</property>
+                <property
+                  dataType="System.Int32"
+                  description="The format of blob file"
+                  name="Blob Format"
+                  typeConverter="Microsoft.SqlServer.IntegrationService.CloudComponents.Utilities.AzBlobFormatEnumStringConverter">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Compress File"
+                  name="Compress File">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="The compression type"
+                  name="Compression Type"
+                  typeConverter="Microsoft.SqlServer.IntegrationService.CloudComponents.Utilities.AzCompressionTypeEnumStringConverter">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The compression level"
+                  name="Compression Level"
+                  typeConverter="Microsoft.SqlServer.IntegrationService.CloudComponents.Utilities.AzCompressionLevelEnumStringConverter">0</property>
+                <property
+                  dataType="System.String"
+                  description="The character used to delimit columns in text file"
+                  name="Column Delimiter">|</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Column names in the first data row"
+                  name="First Row as Column Names">true</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">AzBlobSrc</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\dft Stage Procedures\Azure Blob Source.Connections[Azure Storage]"
+                  connectionManagerID="{F3DAE546-8007-4FC3-9958-55BBF610B54D}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[Azure Storage]"
+                  description="Connection Manager for Azure Storage"
+                  name="Azure Storage" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output]"
+                  name="Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[Patient_Key]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[Patient_Key]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[Patient_Key]"
+                      name="Patient_Key"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[Encounter_Key]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[Encounter_Key]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[Encounter_Key]"
+                      name="Encounter_Key"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_1]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_1]"
+                      name="PROCEDURE_CODE_1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_1_DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_1_DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_1_DESCRIPTION]"
+                      name="PROCEDURE_CODE_1_DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_2]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_2]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_2]"
+                      name="PROCEDURE_CODE_2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_2_DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_2_DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_2_DESCRIPTION]"
+                      name="PROCEDURE_CODE_2_DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_3]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_3]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_3]"
+                      name="PROCEDURE_CODE_3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_3_DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_3_DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_3_DESCRIPTION]"
+                      name="PROCEDURE_CODE_3_DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_4]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_4]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_4]"
+                      name="PROCEDURE_CODE_4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_4_DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_4_DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_4_DESCRIPTION]"
+                      name="PROCEDURE_CODE_4_DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_5]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_5]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_5]"
+                      name="PROCEDURE_CODE_5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_5_DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_5_DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_5_DESCRIPTION]"
+                      name="PROCEDURE_CODE_5_DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_6]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_6]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_6]"
+                      name="PROCEDURE_CODE_6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_6_DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_6_DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_6_DESCRIPTION]"
+                      name="PROCEDURE_CODE_6_DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[MONTH_BUCKET]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[MONTH_BUCKET]"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[MONTH_BUCKET]"
+                      name="MONTH_BUCKET"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[Patient_Key]"
+                      dataType="wstr"
+                      length="255"
+                      name="Patient_Key" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[Encounter_Key]"
+                      dataType="wstr"
+                      length="255"
+                      name="Encounter_Key" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_1]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_1" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_1_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_1_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_2]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_2" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_2_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_2_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_3]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_3" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_3_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_3_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_4]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_4" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_4_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_4_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_5]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_5" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_5_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_5_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_6]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_6" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[PROCEDURE_CODE_6_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_6_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].ExternalColumns[MONTH_BUCKET]"
+                      dataType="wstr"
+                      length="255"
+                      name="MONTH_BUCKET" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output]"
+                  isErrorOut="true"
+                  name="Error output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[Patient_Key]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[Patient_Key]"
+                      name="Patient_Key" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[Encounter_Key]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[Encounter_Key]"
+                      name="Encounter_Key" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_1]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_1]"
+                      name="PROCEDURE_CODE_1" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_1_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_1_DESCRIPTION]"
+                      name="PROCEDURE_CODE_1_DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_2]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_2]"
+                      name="PROCEDURE_CODE_2" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_2_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_2_DESCRIPTION]"
+                      name="PROCEDURE_CODE_2_DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_3]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_3]"
+                      name="PROCEDURE_CODE_3" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_3_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_3_DESCRIPTION]"
+                      name="PROCEDURE_CODE_3_DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_4]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_4]"
+                      name="PROCEDURE_CODE_4" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_4_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_4_DESCRIPTION]"
+                      name="PROCEDURE_CODE_4_DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_5]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_5]"
+                      name="PROCEDURE_CODE_5" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_5_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_5_DESCRIPTION]"
+                      name="PROCEDURE_CODE_5_DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_6]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_6]"
+                      name="PROCEDURE_CODE_6" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_6_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_6_DESCRIPTION]"
+                      name="PROCEDURE_CODE_6_DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[MONTH_BUCKET]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[MONTH_BUCKET]"
+                      name="MONTH_BUCKET" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="der UrlAlias and CreatedDate"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Outputs[Derived Column Output].Columns[CreatedDate]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Outputs[Derived Column Output].Columns[CreatedDate]"
+                      name="CreatedDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[System::StartTime]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[System::StartTime]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Outputs[Derived Column Output].Columns[UrlAlias]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="7"
+                      lineageId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Outputs[Derived Column Output].Columns[UrlAlias]"
+                      name="UrlAlias"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Project::UrlAlias]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Project::UrlAlias]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="der UrlAlias and CreatedDate 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output].Columns[CreatedDate]"
+                      dataType="date"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output].Columns[CreatedDate]"
+                      name="CreatedDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[System::StartTime]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[System::StartTime]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output].Columns[UrlAlias]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="7"
+                      lineageId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output].Columns[UrlAlias]"
+                      name="UrlAlias"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">@[$Project::UrlAlias]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">@[$Project::UrlAlias]</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\dft Stage Procedures\Procedures errors"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Procedures errors"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[error].[Procedures]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\dft Stage Procedures\Procedures errors.Connections[OleDbConnection]"
+                  connectionManagerID="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ClientOutcomesFromEMR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[ErrorCode]"
+                      cachedDataType="i4"
+                      cachedName="ErrorCode"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[ErrorCode]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[ErrorColumn]"
+                      cachedDataType="i4"
+                      cachedName="ErrorColumn"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[ErrorColumn]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[CreatedDate]"
+                      cachedDataType="date"
+                      cachedName="CreatedDate"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      lineageId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output].Columns[CreatedDate]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[UrlAlias]"
+                      cachedDataType="wstr"
+                      cachedLength="7"
+                      cachedName="UrlAlias"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[UrlAlias]"
+                      lineageId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output].Columns[UrlAlias]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[Patient_Key]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Patient_Key"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PATIENT_KEY]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[Patient_Key]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[Encounter_Key]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Encounter_Key"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_KEY]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[Encounter_Key]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_1"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_1]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_1]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_1_DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_1_DESCRIPTION"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_1_DESCRIPTION]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_1_DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_2]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_2"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_2]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_2]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_2_DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_2_DESCRIPTION"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_2_DESCRIPTION]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_2_DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_3]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_3"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_3]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_3]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_3_DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_3_DESCRIPTION"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_3_DESCRIPTION]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_3_DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_4]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_4"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_4]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_4]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_4_DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_4_DESCRIPTION"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_4_DESCRIPTION]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_4_DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_5]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_5"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_5]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_5]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_5_DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_5_DESCRIPTION"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_5_DESCRIPTION]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_5_DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_6]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_6"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_6]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_6]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_6_DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_6_DESCRIPTION"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_6_DESCRIPTION]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[PROCEDURE_CODE_6_DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].Columns[MONTH_BUCKET]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="MONTH_BUCKET"
+                      externalMetadataColumnId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[MONTH_BUCKET]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output].Columns[MONTH_BUCKET]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                      dataType="i4"
+                      name="ErrorCode" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                      dataType="i4"
+                      name="ErrorColumn" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      name="CreatedDate" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[UrlAlias]"
+                      dataType="wstr"
+                      length="7"
+                      name="UrlAlias" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PATIENT_KEY]"
+                      dataType="wstr"
+                      length="255"
+                      name="PATIENT_KEY" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_KEY]"
+                      dataType="wstr"
+                      length="255"
+                      name="ENCOUNTER_KEY" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_1]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_1" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_1_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_1_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_2]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_2" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_2_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_2_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_3]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_3" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_3_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_3_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_4]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_4" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_4_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_4_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_5]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_5" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_5_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_5_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_6]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_6" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_6_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROCEDURE_CODE_6_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input].ExternalColumns[MONTH_BUCKET]"
+                      dataType="wstr"
+                      length="255"
+                      name="MONTH_BUCKET" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\dft Stage Procedures\Procedures errors.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage Procedures\Procedures errors.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\Procedures errors.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage Procedures\Procedures errors.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\dft Stage Procedures\stg Procedures"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="stg Procedures"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Stg].[Procedures]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\dft Stage Procedures\stg Procedures.Connections[OleDbConnection]"
+                  connectionManagerID="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[ClientOutcomesFromEMR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[MONTH_BUCKET]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="MONTH_BUCKET"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[MONTH_BUCKET]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[MONTH_BUCKET]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[CreatedDate]"
+                      cachedDataType="date"
+                      cachedName="CreatedDate"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      lineageId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Outputs[Derived Column Output].Columns[CreatedDate]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[Patient_Key]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Patient_Key"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PATIENT_KEY]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[Patient_Key]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[Encounter_Key]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Encounter_Key"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_KEY]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[Encounter_Key]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_1"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_1]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_1]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_1_DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_1_DESCRIPTION"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_1_DESCRIPTION]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_1_DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_2]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_2"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_2]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_2]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_2_DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_2_DESCRIPTION"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_2_DESCRIPTION]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_2_DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_3]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_3"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_3]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_3]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_3_DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_3_DESCRIPTION"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_3_DESCRIPTION]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_3_DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_4]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_4"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_4]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_4]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_4_DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_4_DESCRIPTION"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_4_DESCRIPTION]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_4_DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_5]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_5"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_5]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_5]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_5_DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_5_DESCRIPTION"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_5_DESCRIPTION]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_5_DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_6]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_6"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_6]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_6]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[PROCEDURE_CODE_6_DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROCEDURE_CODE_6_DESCRIPTION"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_6_DESCRIPTION]"
+                      lineageId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output].Columns[PROCEDURE_CODE_6_DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].Columns[UrlAlias]"
+                      cachedDataType="wstr"
+                      cachedLength="7"
+                      cachedName="UrlAlias"
+                      externalMetadataColumnId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[UrlAlias]"
+                      lineageId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Outputs[Derived Column Output].Columns[UrlAlias]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PATIENT_KEY]"
+                      dataType="wstr"
+                      length="50"
+                      name="PATIENT_KEY" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[ENCOUNTER_KEY]"
+                      dataType="wstr"
+                      length="50"
+                      name="ENCOUNTER_KEY" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_1]"
+                      dataType="wstr"
+                      length="50"
+                      name="PROCEDURE_CODE_1" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_1_DESCRIPTION]"
+                      dataType="wstr"
+                      length="200"
+                      name="PROCEDURE_CODE_1_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_2]"
+                      dataType="wstr"
+                      length="50"
+                      name="PROCEDURE_CODE_2" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_2_DESCRIPTION]"
+                      dataType="wstr"
+                      length="200"
+                      name="PROCEDURE_CODE_2_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_3]"
+                      dataType="wstr"
+                      length="50"
+                      name="PROCEDURE_CODE_3" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_3_DESCRIPTION]"
+                      dataType="wstr"
+                      length="200"
+                      name="PROCEDURE_CODE_3_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_4]"
+                      dataType="wstr"
+                      length="50"
+                      name="PROCEDURE_CODE_4" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_4_DESCRIPTION]"
+                      dataType="wstr"
+                      length="200"
+                      name="PROCEDURE_CODE_4_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_5]"
+                      dataType="wstr"
+                      length="50"
+                      name="PROCEDURE_CODE_5" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_5_DESCRIPTION]"
+                      dataType="wstr"
+                      length="200"
+                      name="PROCEDURE_CODE_5_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_6]"
+                      dataType="wstr"
+                      length="50"
+                      name="PROCEDURE_CODE_6" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[PROCEDURE_CODE_6_DESCRIPTION]"
+                      dataType="wstr"
+                      length="200"
+                      name="PROCEDURE_CODE_6_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[MONTH_BUCKET]"
+                      dataType="dbTimeStamp"
+                      name="MONTH_BUCKET" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStamp"
+                      name="CreatedDate" />
+                    <externalMetadataColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input].ExternalColumns[UrlAlias]"
+                      dataType="wstr"
+                      length="50"
+                      name="UrlAlias" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\dft Stage Procedures\stg Procedures.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage Procedures\stg Procedures.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\dft Stage Procedures\stg Procedures.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\dft Stage Procedures\stg Procedures.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\dft Stage Procedures.Paths[Derived Column Output]"
+              endId="Package\dft Stage Procedures\Procedures errors.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\dft Stage Procedures.Paths[Derived Column Output1]"
+              endId="Package\dft Stage Procedures\stg Procedures.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\dft Stage Procedures.Paths[Error output]"
+              endId="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1.Inputs[Derived Column Input]"
+              name="Error output"
+              startId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Error output]" />
+            <path
+              refId="Package\dft Stage Procedures.Paths[Output]"
+              endId="Package\dft Stage Procedures\der UrlAlias and CreatedDate.Inputs[Derived Column Input]"
+              name="Output"
+              startId="Package\dft Stage Procedures\Azure Blob Source.Outputs[Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Rename file"
+      DTS:CreationName="ExtensibleFileTask"
+      DTS:Description="Flexible File Task"
+      DTS:DTSID="{AF805ED4-DFEB-46C0-B7F5-096155703321}"
+      DTS:ExecutableType="ExtensibleFileTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Rename file"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="DestinationFileName">"Procedures"</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="DestinationFolderPath">"epicpi/Staging/"+ @[$Project::UrlAlias]</DTS:PropertyExpression>
+      <DTS:PropertyExpression
+        DTS:Name="SourceFolderPath">"epicpi/Staging/"+ @[$Project::UrlAlias]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <ExtensibleFileTask
+          Operation="Copy"
+          SourceConnectionType="AzureStorage"
+          SourceConnectionId="{F3DAE546-8007-4FC3-9958-55BBF610B54D}"
+          SourceFolderPath="epicpi/Staging/well434"
+          SourceFileName="*Procedures*"
+          SearchRecursively="False"
+          DestinationConnectionType="AzureStorage"
+          DestinationConnectionId="{F3DAE546-8007-4FC3-9958-55BBF610B54D}"
+          DestinationFolderPath="epicpi/Staging/well434"
+          DestinationFileName="Procedures"
+          ConnectionType="LocalFileSystem"
+          DeleteRecursively="False" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Stg Procedures"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{23CF3B61-9BB9-49B9-B6A5-74462D034504}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Stg Procedures"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C00F5F91-4855-41BC-A28F-D3BCF3559DE6}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE [Stg].[Procedures]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{2F632B87-375E-4E46-A981-00C73E83C128}"
+      DTS:From="Package\Truncate Stg Procedures"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\dft Stage Procedures" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{674B2E42-F2C3-4D20-90E3-9B91580679CC}"
+      DTS:From="Package\Rename file"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Truncate Stg Procedures" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{B0F5F674-9364-4658-B2EF-ABBF846FF48A}"
+      DTS:From="Package\dft Stage Procedures"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Delete file" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="126,42"
+          Id="Package\Delete file"
+          TopLeft="40,311.5" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\dft Stage Procedures"
+          TopLeft="14.5,209.5" />
+        <NodeLayout
+          Size="135,42"
+          Id="Package\Rename file"
+          TopLeft="35.5,5.5" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Truncate Stg Procedures"
+          TopLeft="5.50000000000001,107.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="103,149.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60.4"
+              Start="0,0"
+              End="0,52.9">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.9" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="103,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="103.05,251.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60.4"
+              Start="0,0"
+              End="0,52.9">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.9" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\dft Stage Procedures">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="215,42"
+          Id="Package\dft Stage Procedures\der UrlAlias and CreatedDate"
+          TopLeft="5.50000000000006,107.5" />
+        <NodeLayout
+          Size="215,42"
+          Id="Package\dft Stage Procedures\der UrlAlias and CreatedDate 1"
+          TopLeft="281.5,107.5" />
+        <NodeLayout
+          Size="149,42"
+          Id="Package\dft Stage Procedures\stg Procedures"
+          TopLeft="38.5000000000001,209.5" />
+        <NodeLayout
+          Size="165,42"
+          Id="Package\dft Stage Procedures\Azure Blob Source"
+          TopLeft="58.5,6.5" />
+        <NodeLayout
+          Size="162,42"
+          Id="Package\dft Stage Procedures\Procedures errors"
+          TopLeft="308,209.5" />
+        <EdgeLayout
+          Id="Package\dft Stage Procedures.Paths[Output]"
+          TopLeft="113.916666666667,48.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59"
+              Start="0,0"
+              End="0,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\dft Stage Procedures.Paths[Error output]"
+          TopLeft="167.166666666667,48.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="221.833333333333,59"
+              Start="0,0"
+              End="221.833333333333,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.9399759903962" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.9399759903962"
+                    Point2="0,23.9399759903962"
+                    Point3="4,23.9399759903962" />
+                  <mssgle:LineSegment
+                    End="217.833333333333,23.9399759903962" />
+                  <mssgle:CubicBezierSegment
+                    Point1="217.833333333333,23.9399759903962"
+                    Point2="221.833333333333,23.9399759903962"
+                    Point3="221.833333333333,27.9399759903962" />
+                  <mssgle:LineSegment
+                    End="221.833333333333,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="83.4052799479165,28.9399759903962,55.0227734375,11.2822265625"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\dft Stage Procedures.Paths[Derived Column Output1]"
+          TopLeft="113,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\dft Stage Procedures.Paths[Derived Column Output]"
+          TopLeft="389,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\dft Stage Procedures\Azure Blob Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\dft Stage Procedures\stg Procedures">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\dft Stage Procedures\Procedures errors">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
